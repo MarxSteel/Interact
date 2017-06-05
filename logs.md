@@ -1,0 +1,7 @@
+
+
+100 - Cadastro de Club
+101 - Inativar Clube
+102 - Reativar Clube
+103 - E-Mail de Club Atualizado
+104 - Nome de Club Atualizado
