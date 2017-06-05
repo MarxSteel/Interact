@@ -3,7 +3,7 @@
 	 <div class="sidebar-user-material">
 	  <div class="category-content">
 	   <div class="sidebar-user-material-content">
-		<a href="#"><img src="assets/images/perfil/<?php echo $phoSocio; ?>" class="img-circle img-responsive" alt=""></a>
+		<a href="#"><img src="<?php echo $server; ?>assets/images/perfil/<?php echo $phoSocio; ?>" class="img-circle img-responsive" alt=""></a>
 		<h6><?php echo $nomSocio; ?></h6>
 		<span class="text-size-small"><?php echo $NomeClube; ?><br />Distrito <?php echo $Distrito; ?></span>
 	   </div>														

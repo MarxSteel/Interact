@@ -55,6 +55,11 @@ text-decoration:none;
 color:white;
 }
 
+a:visited{
+text-decoration:none;
+color:white;
+}
+
 a:hover{
 text-decoration:none;
 color:white;
@@ -123,8 +128,8 @@ color:white;
      <div class="col-md-4 col-xs-12">
       <div class="panel panel-body bg-blue-400" style="background-image: url(assets/images/backgrounds/bg.png);">
 	   <div class="media no-margin">
-	   <a href="" class="media-left media-middle" color="#ffffff"><i class="icon-flag3 icon-2x"></i></a>
-		
+	   <a href="Clubes/dashboard.php" target="_blank" class="media-left media-middle" color="#ffffff">
+	   <i class="icon-flag3 icon-2x"></i></a>
 		 <div class="media-body text-right">
 		  <h5 class="media-heading text-semibold">Cadastro de Clubes</h5>
 		   <span class="text-muted">Ativos no momento: <?php echo $QuantClube; ?> </span>
