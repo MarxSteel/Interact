@@ -27,7 +27,7 @@ $user = $app->UserDetails($_SESSION['user_id']); // get user details
 $loginUser = $user->username;
 $privs = $app->PrivilegioSocio($loginUser);
 
-$server = 'http://192.168.0.7:8888/interact/interact/';
+$server = 'http://192.168.1.100:8888/interact/interact/';
 
 $Titulo = "SIGED - Sistema de Gestão Distrital | MDIO Interact Brasil";
 $Distrito = "1234";
