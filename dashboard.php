@@ -7,7 +7,6 @@ $QuantClube = $db->query("SELECT COUNT(*) FROM ic_clube WHERE status='A' AND clu
 
 $QuantSocio = $db->query("SELECT COUNT(*) FROM ic_socio WHERE aStatus='A' AND aDist='$Distrito'")->fetchColumn();
 
-
 ?>
 <!DOCTYPE html>
 <html lang="pt">
