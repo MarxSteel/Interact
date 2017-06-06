@@ -5,3 +5,5 @@
 102 - Reativar Clube
 103 - E-Mail de Club Atualizado
 104 - Nome de Club Atualizado
+105 - Clube e Associados Desativados
+106 - Reativar Clube
