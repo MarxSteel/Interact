@@ -22,12 +22,12 @@ $(function() {
         columnDefs: [{ 
             orderable: false,
             width: '100px',
-            targets: [ 5 ]
+            targets: [ 3 ]
         }],
         dom: '<"datatable-header"fl><"datatable-scroll-wrap"t><"datatable-footer"ip>',
         language: {
-            search: '<span>Filter:</span> _INPUT_',
-            lengthMenu: '<span>Show:</span> _MENU_',
+            search: '<span>Filtrar:</span> _INPUT_',
+            lengthMenu: '<span>Mostrar:</span> _MENU_',
             paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
         },
         drawCallback: function () {
@@ -58,11 +58,11 @@ $(function() {
             },
             { 
                 width: "100px",
-                targets: [6]
+                targets: [3]
             },
             { 
                 orderable: false,
-                targets: [6]
+                targets: [3]
             }
         ],
         order: [1, 'asc']
@@ -111,11 +111,11 @@ $(function() {
             },
             { 
                 width: "100px",
-                targets: [6]
+                targets: [3]
             },
             { 
                 orderable: false,
-                targets: [6]
+                targets: [3]
             }
         ],
         order: [1, 'asc']
