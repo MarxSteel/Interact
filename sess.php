@@ -27,7 +27,7 @@ $user = $app->UserDetails($_SESSION['user_id']); // get user details
 $loginUser = $user->username;
 $privs = $app->PrivilegioSocio($loginUser);
 
-$server = 'http://192.168.1.100:8888/interact/interact/';
+$server = 'http://192.168.1.101:8888/interact/interact/';
 $s = $server . '/assets/';
 $Titulo = "SIGED - Sistema de Gestão Distrital | MDIO Interact Brasil";
 $Distrito = "1234";
@@ -36,14 +36,16 @@ $NomeUL = "Marquistei Medeiros";
 $Versao = "2.2.2";
 
 
-function notify(){
- echo '
- <script type="text/javascript" src="' . $s . 'js/plugins/notifications/pnotify.min.js"></script>
- <script type="text/javascript" src="' . $s . 'js/pages/components_notifications_pnotify.js"></script>
- <script type="text/javascript" src="' . $s . 'js/core/libraries/jquery_ui/interactions.min.js"></script>
- ';
+/*
+ *FUNÇÃO PARA CALCULAR IDADE
+*/
+function calcIdade($birthdate)
+{
+    $now = new DateTime();
+    $diff = $now->diff(new DateTime($birthdate));
+     
+    return $diff->y;
 }
-
 
 
 
