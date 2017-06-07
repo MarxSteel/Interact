@@ -7,3 +7,7 @@
 104 - Nome de Club Atualizado
 105 - Clube e Associados Desativados
 106 - Reativar Clube
+205 - Atualizar Data de Fundação
+206 - Atualizar E-mail
+207 - Atualizar RC Padrinho
+208 - Atualizado Diretorias
