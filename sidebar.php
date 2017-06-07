@@ -17,7 +17,7 @@
 	    <li><a href="#"><i class="icon-coins"></i> <span>Relatório de Uso</span></a></li>
 	    <li class="divider"></li>
 	    <li><a href="#"><i class="icon-cog5"></i> <span>Configura&ccedil;&atilde;o de Perfil</span></a></li>
-	    <li><a href="#"><i class="icon-switch2"></i> <span>Sair do Sistema</span></a></li>
+	    <li><a href="<?php echo $server; ?>logout.php"><i class="icon-switch2"></i> <span>Sair do Sistema</span></a></li>
 	   </ul>
 	  </div>
 	 </div>
@@ -25,16 +25,17 @@
 	  <div class="category-content no-padding">
 	   <ul class="navigation navigation-main navigation-accordion">
 		<li class="active">
-		 <a href="index.html"><i class="icon-home4"></i> <span>In&iacute;cio</span></a>
+		 <a href="<?php echo $server; ?>dashboard.php">
+		 <i class="icon-home4"></i> <span>In&iacute;cio</span></a>
 		</li>
 		<li <?php echo $aDist; ?>>
 		 <a href="#"><i class="icon-cog"></i> <span>Distrito <?php echo $Distrito; ?></span></a>
 	      <ul>
-		   <li <?php echo $aDClube; ?>><a href="Clubes/dashboard.php">
+		   <li <?php echo $aDClube; ?>><a href="<?php echo $server; ?>Clubes/dashboard.php">
 		    <i class="icon-flag3"></i>Clubes</a></li>
-		   <li <?php echo $aDSocio; ?>><a href="Associados/dashboard.php">
+		   <li <?php echo $aDSocio; ?>><a href="<?php echo $server; ?>Associados/dashboard.php">
 		    <i class="icon-users2"></i>Associados</a></li>
-		   <li <?php echo $aDProjeto; ?>><a href="Projetos/dashboard.php">
+		   <li <?php echo $aDProjeto; ?>><a href="<?php echo $server; ?>Projetos/dashboard.php">
 		    <i class="icon-users2"></i>Projetos</a></li>
 		  </ul>
 		</li>

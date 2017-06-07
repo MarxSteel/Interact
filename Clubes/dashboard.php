@@ -46,7 +46,8 @@ function myFunction() {
 	<!-- Main navbar -->
 	<div class="navbar navbar-default header-dark">
  <div class="navbar-header">
-  <a class="navbar-brand" href="../index.html"><img src="<?php echo $server; ?>assets/images/logos/ICLogo_Azul_Graf.png" height="60%" alt=""></a>
+  <a class="navbar-brand">
+  <img src="<?php echo $server; ?>assets/images/logos/ICLogo_Azul_Graf.png" height="60%" alt=""></a>
    <ul class="nav navbar-nav visible-xs-block">
 	<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
 	<li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
@@ -60,31 +61,7 @@ function myFunction() {
   </ul>
   <div class="navbar-right">
    <p class="navbar-text">Ol&aacute;, <?php echo $nomSocio; ?>!</p>				
-	<ul class="nav navbar-nav">				
-	 <li class="dropdown">
-	  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">
-	   <i class="icon-bell2"></i>
-		<span class="visible-xs-inline-block position-right">Notifica&ccedil;&otilde;es</span>
-		<span class="status-mark border-pink-300"></span>
-	  </a>
-	  <div class="dropdown-menu dropdown-content">
-	   <div class="dropdown-content-heading">Atividade
-		<ul class="icons-list"><li><a href="../#"><i class="icon-menu7"></i></a></li></ul>
-	   </div>
-		<ul class="media-list dropdown-content-body width-350">
-		 <li class="media">
-		  <div class="media-left">
-		   <a href="../#" class="btn bg-success-400 btn-rounded btn-icon btn-xs"><i class="icon-mention"></i></a>
-		  </div>
-		  <div class="media-body">
-		   <a href="../#">Marx Medeiros</a> Adicionou pendência a um projeto seu
-		   <div class="media-annotation">10/10/2010</div>
-		  </div>
-		 </li>
-		</ul>
-	   </div>
-	 </li>				
-	</ul>
+
    </div>
   </div>
  </div>
@@ -104,6 +81,14 @@ function myFunction() {
 	 </div>
 	</div>
 	<div class="content">
+    <!-- FLOAT -->
+  <ul class="fab-menu fab-menu-fixed fab-menu-top-right" data-fab-toggle="click">
+   <li>
+    <button type="button" class="btn btn-default btn-labeled btn-rounded btn-block" data-toggle="modal" data-target="#modal_h1"><b><i class="icon-plus-circle2"></i></b>Cadastrar Club</button>
+   </li>
+  </ul><!-- FLOAT -->
+
+
 	 <div class="row">
 	  <div class="col-md-12">
 	   <div class="panel panel-flat">
@@ -117,9 +102,6 @@ function myFunction() {
 		   <li>
 			<a href="../#inativos" data-toggle="tab">
 			<i class="icon-shield-notice position-left"></i> Clubes Inativos</a>
-		   </li>
-		   <li>
-		   <button type="button" class="btn btn-default btn-labeled btn-rounded btn-block" data-toggle="modal" data-target="#modal_h1"><b><i class="icon-plus-circle2"></i></b>Cadastrar Club</button>
 		   </li>
 		  </ul>
 		  <div class="tab-content">
@@ -425,7 +407,10 @@ function myFunction() {
  <script type="text/javascript" src="../assets/js/plugins/forms/wizards/form_wizard/form_wizard.min.js"></script>
  <script type="text/javascript" src="../assets/js/pages/wizard_form.js"></script>
  <!-- //FORMS -->		
-
+<!-- FAB -->
+ <script type="text/javascript" src="../assets/js/plugins/ui/fab.min.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/extra_fab.js"></script>
+<!-- /FAB -->
 
 
 <script language="JavaScript">
