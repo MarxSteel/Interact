@@ -5,47 +5,112 @@ include_once '../lib/qyuser.php';
 
 $ClID = $_GET['ID'];
 $db = DB();
+
+$QtSocios = $db->query("SELECT COUNT(*) FROM ic_socio WHERE codClub='$ClID' AND aStatus='A'")->fetchColumn();
+
+
  $ChamaCl = $db->prepare("SELECT * FROM ic_clube WHERE id='$ClID'");
  $ChamaCl->execute();
   $Cl = $ChamaCl->fetch();
    $ClNome = $Cl['clubeNome'];				//NOME DO CLUBE
+   $CapaClube = $Cl['cover'];				//NOME DO CLUBE
+   $DataFundado = $Cl['dtFundacao'];		//DATA DE FUNDAÇÃO DO CLUB
+   $MailClube = $Cl['mailContato'];			//DATA DE FUNDAÇÃO DO CLUB
+   $Rotary = $Cl['rcPadrinho'];			//DATA DE FUNDAÇÃO DO CLUB
+   	//CHAMANDO DADOS DE REUNIÃO
+   $DiaSemana = $Cl['rSem'];			//DIA DA SEMANA
+   $Periodo = $Cl['rPer'];				//PERIDIOCIDADE DE REUNIÃO
+   $Horario = $Cl['rHora'];				//HORÁRIO DE REUNIÃO
+   $LocalReuni = $Cl['rLocal'];			//LOCAL DE REUNIÃO
+    //CHAMANDO ENDEREÇO
+   $endRua = $Cl['eRua'];
+   $endNum = $Cl['eNum'];
+   $endBair = $Cl['eBair'];
+   $endCEP = $Cl['eCEP'];
+   $endUF = $Cl['eUF'];
+   $endCidade = $Cl['eCid'];
+   $endComp = $Cl['eCom'];
+    //Diretoria
+   $Pre = $Cl['pres'];					//PRESIDENTE
+   $Sec = $Cl['sec'];					//SECRETÁRIO
+   $Tes = $Cl['tes'];					//TESOUREIRO
+
+
+
+
+   $LinkCapa = $server . '/assets/images/capas/' . $CapaClube;
 
 ?>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title><?php echo $Titulo; ?></title>
-
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title><?php echo $Titulo; ?></title>
 	<!-- Global stylesheets -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
-	<link href="../assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
-	<link href="../assets/css/bootstrap.css" rel="stylesheet" type="text/css">
-	<link href="../assets/css/core.css" rel="stylesheet" type="text/css">
-	<link href="../assets/css/components.css" rel="stylesheet" type="text/css">
-	<link href="../assets/css/colors.css" rel="stylesheet" type="text/css">
-	<!-- /global stylesheets -->
+ <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+ <link href="../assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+ <link href="../assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+ <link href="../assets/css/core.css" rel="stylesheet" type="text/css">
+ <link href="../assets/css/components.css" rel="stylesheet" type="text/css">
+ <link href="../assets/css/colors.css" rel="stylesheet" type="text/css">
+ <!-- Core JS files -->
+ <script type="text/javascript" src="../assets/js/plugins/loaders/pace.min.js"></script>
+ <script type="text/javascript" src="../assets/js/core/libraries/jquery.min.js"></script>
+ <script type="text/javascript" src="../assets/js/core/libraries/bootstrap.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/loaders/blockui.min.js"></script>
+ <!-- /core JS files -->
 
-	<!-- Core JS files -->
-	<script type="text/javascript" src="../assets/js/core/libraries/jquery.min.js"></script>
-	<script type="text/javascript" src="../assets/js/core/libraries/bootstrap.min.js"></script>
-	<!-- /core JS files -->
+ <!-- Theme JS files -->
+ <script type="text/javascript" src="../assets/js/core/libraries/jquery_ui/core.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/wizards/form_wizard/form.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/wizards/form_wizard/form_wizard.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/selects/select2.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/styling/uniform.min.js"></script>
+ <script type="text/javascript" src="../assets/js/core/libraries/jasny_bootstrap.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/validation/validate.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/notifications/sweet_alert.min.js"></script>
 
-	<!-- Theme JS files -->
-	<script type="text/javascript" src="../assets/js/plugins/ui/drilldown.js"></script>
+ <script type="text/javascript" src="../assets/js/core/app.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/wizard_form.js"></script>
 
-	<script type="text/javascript" src="../assets/js/core/app.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/ui/ripple.min.js"></script>
+ <!-- /theme JS files -->
+ <script type="text/javascript" src="../assets/js/plugins/notifications/pnotify.min.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/components_notifications_pnotify.js"></script>
+ <script type="text/javascript" src="../assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/selects/select2.min.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/form_select2.js"></script>
+	<!-- Fab -->
+ <script type="text/javascript" src="../assets/js/plugins/ui/fab.min.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/extra_fab.js"></script>
+	<!-- /Fab -->
 
-	<script type="text/javascript" src="../assets/js/plugins/ui/ripple.min.js"></script>
-	<!-- /theme JS files -->
 
 </head>
 
-<body>
+<?php
+if (isset($_GET["sucesso"])) {
+
+$CodSucesso = $_GET["sucesso"];
+$CodEvento = $_GET["evento"];
+$CodMSG = $_GET["mensagem"];
+
+echo "<script>
+function myFunction() {
+ new PNotify({
+ title: '" . $CodEvento . "',
+ text: '" . $CodMSG . "',
+ addclass: '" . $CodSucesso . "'
+ });
+}
+</script>";
+
+} ?>
+<body onload="myFunction()">
  <div class="navbar navbar-inverse">
-  <div class="navbar-collapse collapse" id="navbar-mobile">
+  <div class="navbar-collapse collapsed" id="navbar-mobile">
   <center>
     <img src="<?php echo $server; ?>assets/images/logos/ic_br_white.png" width="25%"></a>
 </center>
@@ -56,207 +121,269 @@ $db = DB();
  <div class="page-container">
   <div class="page-content">
    <div class="content-wrapper">
-	<div class="page-header">
-	 <div class="page-header-content">
-	  <div class="page-title">
-	   <h4>
-	    <i class="icon-arrow-left52 position-left"></i> 
-	    <span class="text-semibold">Distrito <?php echo $Distrito; ?></span> - Inativar Clube
-	   </h4>
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="profile-cover">
+	 <div class="profile-cover-img" style="background-image: url(<?php echo $LinkCapa; ?>)"></div>
+	  <div class="media">						
+	   <div class="media-body">
+		<h1>Interact Club de <?php echo $ClNome; ?> 
+		 <small class="display-block">
+		 <b>Distrito <?php echo $Distrito; ?></b><br />
+		 Patrocinado pelo <?php echo $Rotary; ?>
+		 </small>
+		</h1>
+	   </div>
+	   <!--
+	   <div class="media-right media-middle">
+		<ul class="list-inline list-inline-condensed no-margin-bottom text-nowrap">
+		 <li><a href="#" class="btn bg-blue-400 btn-rounded">
+		  <i class="icon-file-picture position-left"></i> Trocar Capa</a>
+		 </li>
+		 <li><a href="#" class="btn btn-default btn-rounded">
+		  <b><i class="icon-mail-read position-left"></i></i> Enviar Mensagem</a>
+		 </li>
+		</ul>
+	   </div>
+	   -->
 	  </div>
 	 </div>
-	</div>
+	 </div>
+	 </div>
+	 <div class="panel panel-body">
+	  <div class="row text-center">
+	   <div class="col-xs-6">
+		<i class="icon-users2 icon-2x display-inline-block text-info"></i>
+		 <h5 class="text-semibold no-margin">
+		 <?php
+		 if ($QtSocios == "1") {
+		 	echo $QtSocios . " Associado";
+		 }
+		 else{
+		 	echo $QtSocios . " Associados";
+		 }
+		 ?>
+		</h5>
+	   </div>
+	   <div class="col-xs-6">
+		<i class="icon-point-up icon-2x display-inline-block text-warning"></i>
+		<h5 class="text-semibold no-margin">420 Projetos</h5>
+	   </div>
+	  </div>
+	 </div>
+	 <div class="col-xs-12 col-md-8">
+	  <div class="panel border-left-lg border-left-success">
+	   <div class="panel-footer panel-footer-condensed">
+		<div class="heading-elements">
+		 <span class="heading-text">Reuniões: 
+		  <span class="text-semibold">
+		  <?php
+		   if ($DiaSemana == "SEG") {
+		   	echo 'Segunda-Feira';
+		   }
+		   elseif ($DiaSemana == "TER") {
+		   	echo 'Ter&ccedil;a-Feira';
+		   }
+		   elseif ($DiaSemana == "QUA") {
+		   	echo 'Quarta-Feira';
+		   }
+		   elseif ($DiaSemana == "QUI") {
+		   	echo 'Quinta-Feira';
+		   }
+		   elseif ($DiaSemana == "SEX") {
+		   	echo 'Sexta-Feira';
+		   }
+		   elseif ($DiaSemana == "SAB") {
+		   	echo 'S&aacute;bado';
+		   }
+		   elseif ($DiaSemana == "DOM") {
+		   	echo 'Domingo';
+		   }
+		   else{
+		   	echo 'N&atilde;o Cadastrado';
+		   }
+		   echo ', ' . $Horario . 'H</span> - ' . $Periodo;
+		  ?>
+		 </span>
+		 <span class="list-inline list-inline-condensed heading-text pull-right">TESTE</span>
+          <ul class="list-inline list-inline-condensed heading-text pull-right">
+		   <li><b>Local de Reuniões:</b> <?php echo $LocalReuni; ?></li>
+		  </ul>
+		</div>
+	   </div>
+	   <div class="panel-body">
+		<div class="row">
+		 <div class="col-md-6">
+		  <h5 class="no-margin-top">
+		   <b>Endereço:</b> <?php echo $endRua; ?>, <b>Nº</b> <?php echo $endNum; ?>	<br />
+		   <b>Complemento: </b><?php echo $endComp; ?><br />
+		   <b>Bairro:</b> <?php echo $endBair; ?> <b>CEP.:</b> <?php echo $endCEP; ?> <br />
+		   <b>Cidade: </b> <?php echo $endCidade; ?> <b>Estado: </b> <?php echo $endUF; ?>
+		  </h5>
+		  <h4><b>E-Mail para contato: </b>
+		  <?php
+		  if ($MailClube == "") {
+		  	echo "N&atilde;o Cadastrado";
+		  }
+		  else{
+		  	echo $MailClube;
+		  }
+		  ?>
+		  </h4>
+		 </div>
+		 <div class="col-md-6">
+		  <ul class="list task-details"><span>Data de Fundação: <?php echo dateConvert($DataFundado); ?></span></ul>
+		 </div>
+		</div>
+	   </div>
+	  </div>
+
+
+
+
+
+
+
+	 </div>
+	 <div class="col-xs-12 col-md-4">
+	  <div class="panel panel-flat border-left-success">
+		<ul class="media-list media-list-linked pb-5">
+		  <li class="media">
+		  <?php 
+		   if ($Pre == "") {
+		   	echo "<h2><b>Presidente Não Cadastrado</b></h2>";
+		   } else{ 
+		   	$ChamaPre = $db->prepare("SELECT * FROM ic_socio WHERE id='$Pre'");
+ 			$ChamaPre->execute();
+  			$Pre = $ChamaPre->fetch();
+		   	?>
+		   <a href="#" class="media-link">
+			<div class="media-left">
+			 <img src="<?php echo $server;?>/assets/images/perfil/<?php echo $Pre['foto']; ?>" class="img-circle" alt=""></div>
+			  <div class="media-body">
+			   <span class="media-heading text-semibold"><?php echo $Pre['nomeCom']; ?></span>
+			   <span class="media-annotation">Presidente</span>
+			  </div>
+		   </a>
+		  <?php
+		   }
+		  ?>
+		  </li>
+		  <li class="media">
+		  <?php 
+		   if ($Sec == "") {
+		   	echo "<h2><b>Secretário Não Cadastrado</b></h2>";
+		   } else{ 
+		   	$ChamaSec = $db->prepare("SELECT * FROM ic_socio WHERE id='$Sec'");
+ 			$ChamaSec->execute();
+  			$Secc = $ChamaSec->fetch();
+		   	?>
+		   <a href="#" class="media-link">
+			<div class="media-left">
+			 <img src="<?php echo $server;?>/assets/images/perfil/<?php echo $Secc['foto']; ?>" class="img-circle" alt=""></div>
+			  <div class="media-body">
+			   <span class="media-heading text-semibold"><?php echo $Secc['nomeCom']; ?></span>
+			   <span class="media-annotation">
+			   <?php 
+			   if ($Secc['Gen'] == "M") {
+			   	echo 'Secret&aacute;rio';
+			   }
+			   else{
+			   	echo 'Secret&aacute;ria';
+			   }
+			   	?>
+			   </span>
+			  </div>
+		   </a>
+		  <?php
+		   }
+		  ?>
+		  </li>
+		  <li class="media">
+		  <?php 
+		   if ($Tes == "") {
+		   	echo "<h2><b>Tesoureiro Não Cadastrado</b></h2>";
+		   } else{ 
+		   	$ChamaTes = $db->prepare("SELECT * FROM ic_socio WHERE id='$Tes'");
+ 			$ChamaTes->execute();
+  			$Tess = $ChamaTes->fetch();
+		   	?>
+		   <a href="#" class="media-link">
+			<div class="media-left">
+			 <img src="<?php echo $server;?>/assets/images/perfil/<?php echo $Tess['foto']; ?>" class="img-circle" alt=""></div>
+			  <div class="media-body">
+			   <span class="media-heading text-semibold"><?php echo $Tess['nomeCom']; ?></span>
+			   <span class="media-annotation">
+			   <?php 
+			   if ($Tess['Gen'] == "M") {
+			   	echo 'Tesoureiro';
+			   }
+			   else{
+			   	echo 'Tesoureira';
+			   }
+			   	?>
+			   </span>
+			  </div>
+		   </a>
+		  <?php
+		   }
+		  ?>
+		  </li>
+		</ul>
+	  </div>
+	 </div>
+
+
+	 <!-- FLOAT BUTTON -->
+      <ul class="fab-menu fab-menu-fixed fab-menu-bottom-left" data-fab-toggle="click">
+	   <li>
+		<a class="fab-menu-btn btn bg-orange-400 btn-float btn-rounded btn-icon">
+		 <i class="fab-icon-open icon-paragraph-justify3"></i>
+		 <i class="fab-icon-close icon-cross2"></i>
+		</a>
+		<ul class="fab-menu-inner">
+		 <li>
+		  <button type="button" class="btn bg-danger-400 btn-labeled btn-rounded " data-toggle="modal" data-target="#TrocaDataFundado"><b>
+		   <i class="icon-calendar2"></i></b> Editar Data de Fundação
+		  </button>				
+		 </li>
+		 <li>
+		  <button type="button" class="btn bg-success-400 btn-labeled btn-rounded " data-toggle="modal" data-target="#ConselhoDiretor"><b>
+		   <i class="icon-users2"></i></b> Atualizar Conselho Diretor
+		  </button>				
+		 </li>
+		 <li>
+		  <button type="button" class="btn bg-purple-400 btn-labeled btn-rounded " data-toggle="modal" data-target="#Email"><b>
+		   <i class="icon-mail-read"></i></b> Atualizar E-Mail
+		  </button>				
+		 </li>
+		 <li>
+		  <button type="button" class="btn bg-blue-400 btn-labeled btn-rounded " data-toggle="modal" data-target="#Reuniao"><b>
+		   <i class="icon-pin"></i></b> Atualizar Dados de Reunião e Endereço
+		  </button>				
+		 </li>
+		 <li>
+		  <button type="button" class="btn bg-orange-400 btn-labeled btn-rounded " data-toggle="modal" data-target="#RCPadrinho"><b>
+		   <i class="icon-cog"></i></b> Atualizar Rotary Club Patrocinador
+		  </button>				
+		 </li>
+
+		</ul>
+	   </li>
+	  </ul>
+
 	<div class="content">
-	 <div class="panel panel-flat">
-	  <div class="panel-heading">
-	   <h5 class="panel-title">Interact Club de <?php echo $ClNome; ?></h5>
-	  </div>
-	  <div class="panel-body">
-	  <h2><b>Aten&ccedil;&atilde;o!</b> Ao desativar o Clube, os associados pertencentes a este club serão automaticamente desativados, tem certeza disto?</h2>
-							
-	  </div>
-					</div>
-					<!-- /simple panel -->
 
 
-					<!-- Table -->
-					<div class="panel panel-flat">
-						<div class="panel-heading">
-							<h5 class="panel-title">Basic table</h5>
-							<div class="heading-elements">
-								<ul class="icons-list">
-			                		<li><a data-action="collapse"></a></li>
-			                		<li><a data-action="close"></a></li>
-			                	</ul>
-		                	</div>
-	                	</div>
-
-	                	<div class="panel-body">
-	                		Starter pages include the most basic components that may help you start your development process - basic grid example, panel, table and form layouts with standard components. Nothing extra.
-	                	</div>
-
-						<div class="table-responsive">
-							<table class="table">
-								<thead>
-									<tr>
-										<th>#</th>
-										<th>First Name</th>
-										<th>Last Name</th>
-										<th>Username</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td>Eugene</td>
-										<td>Kopyov</td>
-										<td>@Kopyov</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>Victoria</td>
-										<td>Baker</td>
-										<td>@Vicky</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>James</td>
-										<td>Alexander</td>
-										<td>@Alex</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>Franklin</td>
-										<td>Morrison</td>
-										<td>@Frank</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<!-- /table -->
 
 
-					<!-- Grid -->
-					<div class="row">
-						<div class="col-md-6">
 
-							<!-- Horizontal form -->
-							<div class="panel panel-flat">
-								<div class="panel-heading">
-									<h5 class="panel-title">Horizontal form</h5>
-									<div class="heading-elements">
-										<ul class="icons-list">
-					                		<li><a data-action="collapse"></a></li>
-					                		<li><a data-action="close"></a></li>
-					                	</ul>
-				                	</div>
-			                	</div>
 
-								<div class="panel-body">
-									<form class="form-horizontal" action="#">
-										<div class="form-group">
-											<label class="control-label col-lg-2">Text input</label>
-											<div class="col-lg-10">
-												<input type="text" class="form-control">
-											</div>
-										</div>
-
-										<div class="form-group">
-											<label class="control-label col-lg-2">Password</label>
-											<div class="col-lg-10">
-												<input type="password" class="form-control">
-											</div>
-										</div>
-
-				                        <div class="form-group">
-				                        	<label class="control-label col-lg-2">Select</label>
-				                        	<div class="col-lg-10">
-					                            <select name="select" class="form-control">
-					                                <option value="opt1">Basic select</option>
-					                                <option value="opt2">Option 2</option>
-					                                <option value="opt3">Option 3</option>
-					                                <option value="opt4">Option 4</option>
-					                                <option value="opt5">Option 5</option>
-					                                <option value="opt6">Option 6</option>
-					                                <option value="opt7">Option 7</option>
-					                                <option value="opt8">Option 8</option>
-					                            </select>
-				                            </div>
-				                        </div>
-
-										<div class="form-group">
-											<label class="control-label col-lg-2">Textarea</label>
-											<div class="col-lg-10">
-												<textarea rows="5" cols="5" class="form-control" placeholder="Default textarea"></textarea>
-											</div>
-										</div>
-
-										<div class="text-right">
-											<button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
-										</div>
-									</form>
-								</div>
-							</div>
-							<!-- /horizotal form -->
-
-						</div>
-
-						<div class="col-md-6">
-
-							<!-- Vertical form -->
-							<div class="panel panel-flat">
-								<div class="panel-heading">
-									<h5 class="panel-title">Vertical form</h5>
-									<div class="heading-elements">
-										<ul class="icons-list">
-					                		<li><a data-action="collapse"></a></li>
-					                		<li><a data-action="close"></a></li>
-					                	</ul>
-				                	</div>
-			                	</div>
-
-								<div class="panel-body">
-									<form action="#">
-										<div class="form-group">
-											<label>Text input</label>
-											<input type="text" class="form-control">
-										</div>
-
-				                        <div class="form-group">
-				                        	<label>Select</label>
-				                            <select name="select" class="form-control">
-				                                <option value="opt1">Basic select</option>
-				                                <option value="opt2">Option 2</option>
-				                                <option value="opt3">Option 3</option>
-				                                <option value="opt4">Option 4</option>
-				                                <option value="opt5">Option 5</option>
-				                                <option value="opt6">Option 6</option>
-				                                <option value="opt7">Option 7</option>
-				                                <option value="opt8">Option 8</option>
-				                            </select>
-				                        </div>
-
-										<div class="form-group">
-											<label>Textarea</label>
-											<textarea rows="4" cols="4" class="form-control" placeholder="Default textarea"></textarea>
-										</div>
-
-										<div class="text-right">
-											<button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
-										</div>
-									</form>
-								</div>
-							</div>
-							<!-- /vertical form -->
-
-						</div>
-					</div>
-					<!-- /grid -->
 
 
 					<!-- Footer -->
 					<?php 
+					include_once 'modals.php';
 					include_once 'footer.php';
 					?>
 					<!-- /footer -->
