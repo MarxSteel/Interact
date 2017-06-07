@@ -2,6 +2,8 @@
 include_once '../sess.php';
 include_once '../dados.php';
 include_once '../lib/qyuser.php';
+$aDist = 'class="active"';
+$aDClube = $aDist;
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -99,13 +101,6 @@ function myFunction() {
 		 <span class="text-semibold">Distrito <?php echo $Distrito; ?></span> - Cadastro de Clubs
 	   </h4>
 	  </div>
-	  <div class="heading-elements">
-	   <div class="heading-btn-group">
-		<button type="button" class="btn bg-blue-400 btn-sm btn-labeled btn-rounded" data-toggle="modal" data-target="#modal_default"><b><i class="icon-play3 position-right"></i></b> Cadastrar Club</button>
-		
-
-	   </div>
-	  </div>
 	 </div>
 	</div>
 	<div class="content">
@@ -122,6 +117,9 @@ function myFunction() {
 		   <li>
 			<a href="../#inativos" data-toggle="tab">
 			<i class="icon-shield-notice position-left"></i> Clubes Inativos</a>
+		   </li>
+		   <li>
+		   <button type="button" class="btn btn-default btn-labeled btn-rounded btn-block" data-toggle="modal" data-target="#modal_h1"><b><i class="icon-plus-circle2"></i></b>Cadastrar Club</button>
 		   </li>
 		  </ul>
 		  <div class="tab-content">
@@ -256,19 +254,19 @@ function myFunction() {
      	}	
      	else
      	{
-         echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Clube&mensagem=Não%20foi%20possível%20desativar%20clube.%20Erro:%200x20'</script>";  
+         echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Clube&mensagem=Não%20foi%20possível%20desativar%20clube.%20Erro:%200x05'</script>";  
       	 //ELSE CADASTRAR LOG
      	}
       }
       else
       {
-       echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Clube&mensagem=Não%20foi%20possível%20desativar%20clube.%20Erro:%200x21'</script>"; 
+       echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Clube&mensagem=Não%20foi%20possível%20desativar%20clube.%20Erro:%200x04'</script>"; 
       //ELSE INATIVAR SOCIO
       }
      }
      else
      {
-     echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Clube&mensagem=Não%20foi%20possível%20desativar%20clube.%20Erro:%200x22'</script>";     	
+     echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Clube&mensagem=Não%20foi%20possível%20desativar%20clube.%20Erro:%200x03'</script>";     	
   	 //ELSE INATIVAR CLUB
      }
     }
@@ -322,13 +320,13 @@ function myFunction() {
       }
       else
       {
-        echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Reativar%20Clube&mensagem=Não%20foi%20possível%20reativar%20clube.%20Erro:%200x23'</script>";      
+        echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Reativar%20Clube&mensagem=Não%20foi%20possível%20reativar%20clube.%20Erro:%200x05'</script>";      
        //ELSE CADASTRAR LOG
       }
      }
      else
      {
-      echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Reativar%20Clube&mensagem=Não%20foi%20possível%20reativar%20clube.%20Erro:%200x24'</script>"; 
+      echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Reativar%20Clube&mensagem=Não%20foi%20possível%20reativar%20clube.%20Erro:%200x04'</script>"; 
   	  //ELSE INATIVAR CLUB
      }
     }
@@ -338,8 +336,64 @@ function myFunction() {
     </div>
   </div>
 <!-- //MODAL DE REATIVAR CLUB -->
+<!-- MODAL DE CADASTRAR -->
+<div id="modal_h1" class="modal fade">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <div class="modal-header bg-primary-200">
+	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	<h1 class="modal-title">Cadastrar novo Club</h1>
+   </div>
+   <div class="modal-body">
+	<form name="cadClub" id="cadClub" method="post" action="" enctype="multipart/form-data">
+	<div class="form-group">
+	 <div class="col-md-12">Interact Club de (Não digitar "Interact Club de ")
+	  <input class="form-control" type="text" name="clube" placeholder="São Paulo Norte" required>
+	 </div>
+	 <div class="col-md-12">Rotary Club Patrocinador (Digitar "Rotary Club de")
+	  <input class="form-control" type="text" name="rc" placeholder="Rotary Club de São Paulo Norte" required>
 	 </div>
 	</div>
+   </div>
+   <div class="modal-footer"><br /><br /><br />
+    <button type="button" class="btn btn-link" data-dismiss="modal">Fechar	</button>
+    <input name="cadClub" type="submit" class="btn btn-primary" value="Cadastrar Clube">
+    </form>
+    <?php 
+    if(@$_POST["cadClub"])
+    {
+     $novoClubNome = $_POST['clube'];
+     $novoRCNome = $_POST['rc'];
+     $CadClube = $db->query("INSERT INTO ic_clube (clubeNome, rcPadrinho, clubeDistrito, status) VALUES ('$novoClubNome', '$novoRCNome', '$Distrito', 'A')");
+     if ($CadClube) {
+      $DataLog = date('Y-m-d H:i:s');
+      $Descricao = "Novo Club Cadastrado.<br />Clube: " . $novoClubNome . "<br />Rotary Club Patrocinador: " . $novoRCNome;
+      $InsereLog = $db->query("INSERT INTO logs (user, logCod, descreve, dtCadastro) VALUES ('$nickname', '100', '$Descricao', '$DataLog')");
+      if ($InsereLog) {
+       echo "<script>location.href='dashboard.php?sucesso=bg-success&evento=Cadastrar%20Clube&mensagem=Clube%20cadastrado%20com%20Sucesso!'</script>";  		
+      }
+      else
+      {
+        echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Cadastrar%20Clube&mensagem=Não%20foi%20possível%20cadastrar%20clube.%20Erro:%200x02'</script>"; 
+      }
+     }
+     else{
+        echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Cadastrar%20Clube&mensagem=Não%20foi%20possível%20reativar%20clube.%20Erro:%200x01'</script>"; 
+     	//ELSE CAD CLUB
+     }
+	}
+	?>
+
+  </div>
+ </div>
+</div>
+
+<!-- //MODAL DE CADASTRAR -->
+
+	
+	 </div>
+	</div>
+<?php include_once '../footer.php'; ?>	
    </div><!-- /main content -->
   </div><!-- /page content -->
  </div><!-- /page container -->
@@ -372,7 +426,7 @@ function myFunction() {
  <script type="text/javascript" src="../assets/js/pages/wizard_form.js"></script>
  <!-- //FORMS -->		
 
- 
+
 
 <script language="JavaScript">
 function abrir(URL) {
