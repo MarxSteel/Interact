@@ -74,15 +74,15 @@ $db = DB();
 	   <h5 class="panel-title">Interact Club de <?php echo $ClNome; ?></h5>
 	  </div>
 	  <div class="panel-body">
-	  <h2><b>Aten&ccedil;&atilde;o!</b> Ao desativar o Clube, os associados pertencentes a este club serão automaticamente desativados, tem certeza disto?</h2>
-							       <form name="ReativaClube" id="name" method="post" action="" enctype="multipart/form-data">
-        <div class="col-xs-12">
-         <input name="ReativaClube" type="submit" class="btn bg-green-400 btn-lg btn-block" value="SIM, REATIVAR CLUBE"  />
-        
-       </form>
-       <?php 
-        if(@$_POST["ReativaClube"])
-        {
+	  <h2><b>Aten&ccedil;&atilde;o!</b> Você está prestes a reativar o clube, vale lembrar que os associados não são reativados automativamente, é necessário reativar um por um.
+    Deseja realmente reativar o clube?</h2>
+		<form name="ReativaClube" id="name" method="post" action="" enctype="multipart/form-data">
+     <div class="col-xs-12">
+      <input name="ReativaClube" type="submit" class="btn bg-green-400 btn-lg btn-block" value="SIM, REATIVAR CLUBE"  />  
+    </form>
+    <?php 
+    if(@$_POST["ReativaClube"])
+    {
   $Inativar = $db->query("UPDATE ic_clube SET status='A' WHERE id='$ClID'");
   if ($Inativar) {
   $DataCad = date('Y-m-d H:i:s');
