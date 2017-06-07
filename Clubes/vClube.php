@@ -45,14 +45,12 @@ $db = DB();
 
 <body>
  <div class="navbar navbar-inverse">
-  <div class="navbar-header">
-   <a class="navbar-brand">
-    <img src="<?php echo $server; ?>assets/images/logos/ic_br_white.png"></a>
-  </div>
   <div class="navbar-collapse collapse" id="navbar-mobile">
-   <ul class="nav navbar-nav navbar-right">
-	<li><a href="../#">MDIO Interact Brasil </a></li>
-   </ul>
+  <center>
+    <img src="<?php echo $server; ?>assets/images/logos/ic_br_white.png" width="25%"></a>
+</center>
+
+
   </div>
  </div>
  <div class="page-container">
