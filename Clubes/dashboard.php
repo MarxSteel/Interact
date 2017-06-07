@@ -2,6 +2,8 @@
 include_once '../sess.php';
 include_once '../dados.php';
 include_once '../lib/qyuser.php';
+$aDist = 'class="active"';
+$aDClube = $aDist;
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -19,41 +21,27 @@ include_once '../lib/qyuser.php';
 	<link href="../assets/css/components.css" rel="stylesheet" type="text/css">
 	<link href="../assets/css/colors.css" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
-
-	<!-- Core JS files -->
-	<script type="text/javascript" src="../assets/js/plugins/loaders/pace.min.js"></script>
-	<script type="text/javascript" src="../assets/js/core/libraries/jquery.min.js"></script>
-	<script type="text/javascript" src="../assets/js/core/libraries/bootstrap.min.js"></script>
-	<script type="text/javascript" src="../assets/js/plugins/loaders/blockui.min.js"></script>
-	<!-- /core JS files -->
-
-	<!-- Theme JS files -->
- <script type="text/javascript" src="../assets/js/plugins/tables/datatables/datatables.min.js"></script>
- <script type="text/javascript" src="../assets/js/pages/datatables_basic.js"></script>
-
-	<!-- Theme JS files -->
-	<script type="text/javascript" src="../assets/js/core/libraries/jquery_ui/core.min.js"></script>
-	<script type="text/javascript" src="../assets/js/plugins/forms/wizards/form_wizard/form.min.js"></script>
-	<script type="text/javascript" src="../assets/js/plugins/forms/wizards/form_wizard/form_wizard.min.js"></script>
-	<script type="text/javascript" src="../assets/js/plugins/forms/selects/select2.min.js"></script>
-	<script type="text/javascript" src="../assets/js/plugins/forms/styling/uniform.min.js"></script>
-	<script type="text/javascript" src="../assets/js/core/libraries/jasny_bootstrap.min.js"></script>
-	<script type="text/javascript" src="../assets/js/plugins/forms/validation/validate.min.js"></script>
-	<script type="text/javascript" src="../assets/js/plugins/notifications/sweet_alert.min.js"></script>
-
-	<script type="text/javascript" src="../assets/js/core/app.js"></script>
-	<script type="text/javascript" src="../assets/js/pages/wizard_form.js"></script>
-
-	<script type="text/javascript" src="../assets/js/plugins/ui/ripple.min.js"></script>
-	<!-- /theme JS files -->
-
-
-
-
-
 </head>
 
-<body>
+<?php
+if (isset($_GET["sucesso"])) {
+
+$CodSucesso = $_GET["sucesso"];
+$CodEvento = $_GET["evento"];
+$CodMSG = $_GET["mensagem"];
+
+echo "<script>
+function myFunction() {
+ new PNotify({
+ title: '" . $CodEvento . "',
+ text: '" . $CodMSG . "',
+ addclass: '" . $CodSucesso . "'
+ });
+}
+</script>";
+
+} ?>
+<body onload="myFunction()">
 
 	<!-- Main navbar -->
 	<div class="navbar navbar-default header-dark">
@@ -102,7 +90,9 @@ include_once '../lib/qyuser.php';
  </div>
  <div class="page-container">
   <div class="page-content">
-   <?php include_once '../sidebar.php'; ?>
+   <?php 
+   include_once '../sidebar.php'; 
+   ?>
    <div class="content-wrapper">
 	<div class="page-header">
 	 <div class="page-header-content">
@@ -110,11 +100,6 @@ include_once '../lib/qyuser.php';
 	   <h4>
 		 <span class="text-semibold">Distrito <?php echo $Distrito; ?></span> - Cadastro de Clubs
 	   </h4>
-	  </div>
-	  <div class="heading-elements">
-	   <div class="heading-btn-group">
-		<button type="button" class="btn bg-blue-400 btn-sm btn-labeled btn-rounded" data-toggle="modal" data-target="#modal_default"><b><i class="icon-play3 position-right"></i></b> Cadastrar Club</button>
-	   </div>
 	  </div>
 	 </div>
 	</div>
@@ -132,6 +117,9 @@ include_once '../lib/qyuser.php';
 		   <li>
 			<a href="../#inativos" data-toggle="tab">
 			<i class="icon-shield-notice position-left"></i> Clubes Inativos</a>
+		   </li>
+		   <li>
+		   <button type="button" class="btn btn-default btn-labeled btn-rounded btn-block" data-toggle="modal" data-target="#modal_h1"><b><i class="icon-plus-circle2"></i></b>Cadastrar Club</button>
 		   </li>
 		  </ul>
 		  <div class="tab-content">
@@ -155,16 +143,15 @@ include_once '../lib/qyuser.php';
          	  while ($ca = $CAtivo->fetch(PDO::FETCH_ASSOC)){
 			  echo '<tr>';
 			  $idCl = $ca["id"];
+			  $claNome = $ca["clubeNome"];
 			  echo '<td>' . $idCl . '</td>';
-			  echo '<td>' . $ca["clubeNome"] . '</td>';
+			  echo '<td>' . $claNome . '</td>';
 			  $QtSocio = $db->query("SELECT COUNT(*) FROM ic_socio WHERE aStatus='A' AND codClub='$idCl'")->fetchColumn();
 			  echo '<td>' . $QtSocio . '</td>';
 			  echo '<td>' . $ca["rSem"] . ', ' . $ca["rHora"] .  '</td>';
-			 echo '<td>';
-             echo '<a class="btn bg-danger-400 btn-labeled btn-rounded btn-xs" href="javascript:abrir(';
-             echo "'Inativar.php?ID=" . $idCl . "');";
-             echo '"><b><i class="icon-x"></i></b> Inativar</a>';
-             echo '</td>';
+			  echo '<td>
+	<button type="button" class="btn bg-danger-400 btn-labeled btn-rounded btn-xs" data-toggle="modal" data-target="#modalInativa" data-idvalue="' . $idCl . '"  data-whatever="' . $claNome . '"><b><i class="icon-x"></i></b> Inativar</button>
+			        </td>';
 			 echo '<td>';
              echo '<a class="btn bg-blue-400 btn-labeled btn-rounded btn-xs" href="javascript:abrir(';
              echo "'vClube.php?ID=" . $idCl . "');";
@@ -190,25 +177,25 @@ include_once '../lib/qyuser.php';
 			 </thead>
 			 <tbody>
          	 <?php
-         	  $ClAtivo = "SELECT * FROM ic_clube WHERE clubeDistrito='$Distrito' AND status='I' ORDER BY id DESC";
-         	  $CAtivo = $db->prepare($ClAtivo);
-         	  $CAtivo->execute();
-         	  while ($ca = $CAtivo->fetch(PDO::FETCH_ASSOC)){
+         	  $ClInativo = "SELECT * FROM ic_clube WHERE clubeDistrito='$Distrito' AND status='I' ORDER BY id DESC";
+         	  $CInativo = $db->prepare($ClInativo);
+         	  $CInativo->execute();
+         	  while ($in = $CInativo->fetch(PDO::FETCH_ASSOC)){
 			  echo '<tr>';
-			  $idCl = $ca["id"];
-			  echo '<td>' . $idCl . '</td>';
-			  echo '<td>' . $ca["clubeNome"] . '</td>';
+			  $idCli = $in["id"];
+			  $claNomei = $in["clubeNome"];
+
+			  echo '<td>' . $idCli . '</td>';
+			  echo '<td>' . $claNomei . '</td>';
 			  $QtSocio = $db->query("SELECT COUNT(*) FROM ic_socio WHERE aStatus='A' AND codClub='$idCl'")->fetchColumn();
 			  echo '<td>' . $QtSocio . '</td>';
-			  echo '<td>' . $ca["rSem"] . ', ' . $ca["rHora"] .  '</td>';
-			 echo '<td>';
-             echo '<a class="btn bg-green-400 btn-labeled btn-rounded btn-xs" href="javascript:abrir(';
-             echo "'Reativar.php?ID=" . $idCl . "');";
-             echo '"><b><i class="icon-check"></i></b> Reativar</a>';
-             echo '</td>';
+			  echo '<td>' . $in["rSem"] . ', ' . $in["rHora"] .  '</td>';
+			  echo '<td>
+			   <button type="button" class="btn bg-green-400 btn-labeled btn-rounded btn-xs" data-toggle="modal" data-target="#modalAtiva" data-idvalue="' . $idCli . '"  data-whatever="' . $claNomei . '"><b><i class="icon-check"></i></b> Reativar</button>
+			        </td>';			  
 			 echo '<td>';
              echo '<a class="btn bg-blue-400 btn-labeled btn-rounded btn-xs" href="javascript:abrir(';
-             echo "'vClube.php?ID=" . $at['icbr_id'] . "');";
+             echo "'vClube.php?ID=" . $in['icbr_id'] . "');";
              echo '"><b><i class="icon-search4"></i></b> Visualizar</a>';
              echo '</td>';
 			 echo '</tr>';
@@ -222,206 +209,224 @@ include_once '../lib/qyuser.php';
 		</div>
 	   </div>
 	  </div>
-	 </div>
-	</div>
 
-<div id="modal_default" class="modal fade">
- <div class="modal-dialog modal-lg">
+<!-- MODAL DE INATIVAR CLUB -->	 
+<div class="modal fade" id="modalInativa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog" role="document">
   <div class="modal-content">
-   <div class="modal-header">
-	<button type="button" class="close" data-dismiss="modal">&times;</button>
-	<h5 class="modal-title">Basic modal</h5>
+   <div class="modal-header bg-danger">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="exampleModalLabel">New message</h4>
    </div>
    <div class="modal-body">
-
-
-<form class="form-ajax" action="ajax.php" method="post">
- <fieldset class="step" id="ajax-step1">
-  <h6 class="form-wizard-title text-semibold">
-   <span class="form-wizard-count">1</span>Informações do Clube
-  </h6>
-  <div class="row">
-   <div class="col-md-6">
-	<div class="form-group">
-	 <label>Interact Club de:</label>
-	 <input type="text" name="clubeNome" class="form-control" placeholder="John Doe">
+	<h2 align="justify"><b>Aten&ccedil;&atilde;o!</b> Ao desativar o Clube, os associados pertencentes a este club serão automaticamente desativados, tem certeza disto?</h2>
+    <form name="inativaCL" id="inativaCL" method="post" action="" enctype="multipart/form-data">
+     <div class="form-group">
+      <div class="col-md-8">Interact Club de
+        <input class="form-control" name="nomeClubeIn" id="modal-titulo">
+      </div>
+      <div class="col-md-4">ID
+       <div class="modal-valor">
+        <input type="text" class="form-control" name="idClubeIn" id="modal-valor">
+       </div>
+      </div>
+     </div>
+   </div>
+   <div class="modal-footer"><br /><br /><br />
+    <input name="inativaCL" type="submit" class="btn bg-danger-400 btn-block btn-lg" value="Tenho certeza, inativar clube"  />
+    </form>
+    <?php 
+    if(@$_POST["inativaCL"])
+    {
+    $clubeNome = $_POST['nomeClubeIn']; //ID DO PRODUTO
+    $idClube = $_POST['idClubeIn']; //ID DO PRODUTO
+  	$Inativar = $db->query("UPDATE ic_clube SET status='I' WHERE id='$idClube'");
+    if ($Inativar) {
+     $InSocio = $db->query("UPDATE ic_socio SET aStatus='I' WHERE codClub='$idClube'");
+      if ($InSocio) {
+    	$DataCad = date('Y-m-d H:i:s');
+    	$Descrito = "Clube Desativado. <br />Interact Club de: " . $clubeNome;
+     	$InLog = $db->query("INSERT INTO logs (user, logCod, descreve, dtCadastro) VALUES ('$nickname', '105', '$Descrito', '$DataCad')");
+     	if ($InLog) {
+         echo "<script>location.href='dashboard.php?sucesso=bg-success&evento=Desativar%20Clube&mensagem=Clube%20Desativado%20com%20Sucesso!'</script>";
+     	}	
+     	else
+     	{
+         echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Clube&mensagem=Não%20foi%20possível%20desativar%20clube.%20Erro:%200x05'</script>";  
+      	 //ELSE CADASTRAR LOG
+     	}
+      }
+      else
+      {
+       echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Clube&mensagem=Não%20foi%20possível%20desativar%20clube.%20Erro:%200x04'</script>"; 
+      //ELSE INATIVAR SOCIO
+      }
+     }
+     else
+     {
+     echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Clube&mensagem=Não%20foi%20possível%20desativar%20clube.%20Erro:%200x03'</script>";     	
+  	 //ELSE INATIVAR CLUB
+     }
+    }
+    ?>
+        </div>
+      </div>
     </div>
+  </div>
+<!-- //MODAL DE INATIVAR CLUB -->
+<!-- MODAL DE REATIVAR CLUB -->	 
+<div class="modal fade" id="modalAtiva" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog" role="document">
+  <div class="modal-content">
+   <div class="modal-header bg-success">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="exampleModalLabel">New message</h4>
    </div>
-   <div class="col-md-6">
-   <label>Date of birth:</label>
-   <input type="text" name="DataFund" class="form-control" minlength="10" maxlength="10" OnKeyPress="formatar('##/##/####', this)" required="required" placeholder="Data">
+   <div class="modal-body">
+	<h2 align="justify"><b>Aten&ccedil;&atilde;o!</b> Você está prestes a reativar o clube, vale lembrar que os associados não são reativados automativamente, é necessário reativar um por um.
+    Deseja realmente reativar o clube?</h2>
+    <form name="ReativaClube" id="reaativaCL" method="post" action="" enctype="multipart/form-data">
+     <div class="form-group">
+      <div class="col-md-8">Interact Club de
+        <input type="text" class="form-control" name="nomeClubeIn" id="modal-titulo">
+      </div>
+      <div class="col-md-4">ID
+       <div class="modal-valor">
+        <input type="text" class="form-control" name="idClubeIn" id="modal-valor">
+       </div>
+      </div>
+     </div>
    </div>
-   <div class="col-md-12">
-	<div class="form-group">
-	 <label>Rotary Club(s) Patrocinador(es):</label>
-	 <input type="text" name="clubeNome" class="form-control" placeholder="John Doe">
+   <div class="modal-footer"><br /><br /><br />
+    <input name="ReativaClube" type="submit" class="btn bg-success-400 btn-block btn-lg" value="Tenho certeza, reativar clube"  />
+    </form>
+    <?php 
+    if(@$_POST["ReativaClube"])
+    {
+    $clubeNome = $_POST['nomeClubeIn']; //ID DO PRODUTO
+    $idClube = $_POST['idClubeIn']; //ID DO PRODUTO
+  	 $reativarCl = $db->query("UPDATE ic_clube SET status='A' WHERE id='$idClube'");
+  	 if ($reativarCl) {
+  	 $DataCad = date('Y-m-d H:i:s');
+     $Descrito = "Clube Desativado. <br />Interact Club de: " . $clubeNome;
+   	 $InLog = $db->query("INSERT INTO logs (user, logCod, descreve, dtCadastro) VALUES ('$nickname', '106', '$Descrito', '$DataCad')");
+      if ($InLog) 
+      {
+       echo "<script>location.href='dashboard.php?sucesso=bg-success&evento=Reativar%20Clube&mensagem=Clube%20reativado%20com%20Sucesso!'</script>";
+      }
+      else
+      {
+        echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Reativar%20Clube&mensagem=Não%20foi%20possível%20reativar%20clube.%20Erro:%200x05'</script>";      
+       //ELSE CADASTRAR LOG
+      }
+     }
+     else
+     {
+      echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Reativar%20Clube&mensagem=Não%20foi%20possível%20reativar%20clube.%20Erro:%200x04'</script>"; 
+  	  //ELSE INATIVAR CLUB
+     }
+    }
+    ?>
+        </div>
+      </div>
     </div>
-   </div>
   </div>
- </fieldset>
- <fieldset class="step" id="ajax-step2">
-  <h6 class="form-wizard-title text-semibold">
-   <span class="form-wizard-count">2</span>
-	Informações de Endereço e de Reunião
-	<small class="display-block"></small>
-  </h6>
-  <div class="row">
-   <div class="col-md-8">
+<!-- //MODAL DE REATIVAR CLUB -->
+<!-- MODAL DE CADASTRAR -->
+<div id="modal_h1" class="modal fade">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <div class="modal-header bg-primary-200">
+	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	<h1 class="modal-title">Cadastrar novo Club</h1>
+   </div>
+   <div class="modal-body">
+	<form name="cadClub" id="cadClub" method="post" action="" enctype="multipart/form-data">
 	<div class="form-group">
-     <label>Locald e Reunião:</label>
-      <input type="text" name="local" placeholder="Ex.: Casa da Amizade" class="form-control">
+	 <div class="col-md-12">Interact Club de (Não digitar "Interact Club de ")
+	  <input class="form-control" type="text" name="clube" placeholder="São Paulo Norte" required>
+	 </div>
+	 <div class="col-md-12">Rotary Club Patrocinador (Digitar "Rotary Club de")
+	  <input class="form-control" type="text" name="rc" placeholder="Rotary Club de São Paulo Norte" required>
+	 </div>
 	</div>
    </div>
-   <div class="col-md-4">
-	<div class="form-group">
-     <label>Horário:</label>
-      <input type="text" name="horario" placeholder="22:00" minlength="5" maxlength="5" class="form-control">
-	</div>
-   </div>
-   <div class="col-md-6">
-	<div class="form-group">
-	 <label>Periodo:</label>
-     <select name="periodo" data-placeholder="Selecione um Estado..." class="select">
-	  <option></option> 
-      <option value="Semanal"> Semanal</option>
-      <option value="Quinzenal"> Quinzenal</option>
-      <option value="Mensal"> Mensal</option>
-	 </select>
-	</div>
-  </div>
-   <div class="col-md-6">
-	<div class="form-group">
-	 <label>Dia da Semana:</label>
-     <select name="semana" data-placeholder="Selecione um Estado..." class="select">
-	  <option></option> 
-      <option value="SEG"> Segunda-Feira</option>
-      <option value="TER"> Terça-Feira</option>
-      <option value="Qua"> Quarta-Feira</option>
-      <option value="Qui"> Quinta Feira</option>
-      <option value="SEX"> Sexta-Feira</option>
-      <option value="SAB"> S&aacute;bado</option>
-      <option value="DOM"> Domingo</option>
-	 </select>
-	</div>
-  </div>
-   <div class="col-md-8">
-	<div class="form-group">
-     <label>Rua:</label>
-      <input type="text" name="rua" placeholder="Ex.: Avenida 7 de Setembro" class="form-control">
-	</div>
-   </div>
-   <div class="col-md-4">
-	<div class="form-group">
-     <label>Número:</label>
-      <input type="text" name="rua" placeholder="1234" class="form-control">
-	</div>
-   </div>
-   <div class="col-md-4">
-	<div class="form-group">
-     <label>CEP</label>
-      <input type="text" name="cep" class="form-control">
-	</div>
-   </div>
-   <div class="col-md-8">
-	<div class="form-group">
-     <label>Bairro/setor:</label>
-      <input type="text" name="bairro" class="form-control">
-	</div>
-   </div>
-   <div class="col-md-6">
-	<div class="form-group">
-     <label>Cidade</label>
-      <input type="text" name="cidade" class="form-control">
-	</div>
-   </div>
-   <div class="col-md-6">
-	<div class="form-group">
-	 <label>Estado:</label>
-     <select name="UF" data-placeholder="Selecione um Estado..." class="select">
-	  <option></option> 
-         <option value="AC"> Acre</option>
-         <option value="AL"> Alagoas</option>
-         <option value="AM"> Amap&aacute;</option>
-         <option value="BA"> Bahia</option>
-         <option value="CE"> Cear&aacute;</option>
-         <option value="DF"> Distrito Federal</option>
-         <option value="ES"> Esp&iacute;rito Santo</option>
-         <option value="GO"> Goi&aacute;</option>
-         <option value="MA"> Maranh&atilde;o</option>
-         <option value="MT"> Mato Grosso</option>
-         <option value="MS"> Mato Grosso do Sul</option>
-         <option value="MG"> Minas Gerais</option>
-         <option value="PA"> Par&aacute;</option>
-         <option value="PB"> Para&iacute;ba</option>
-         <option value="PR"> Paran&aacute;</option>
-         <option value="PE"> Pernambuco</option>
-         <option value="PI"> Piau&iacute;</option>
-         <option value="RJ"> Rio de Janeiro</option>
-         <option value="RN"> Rio Grande do Norte</option>
-         <option value="RS"> Rio Grande do Sul</option>
-         <option value="RO"> Rond&ocirc;nia</option>
-         <option value="RR"> Roraima</option>
-         <option value="SC"> Santa Catarina</option>
-         <option value="SP"> S&atilde;o Paulo</option>
-         <option value="SE"> Sergipe</option>
-         <option value="TO"> Tocantins</option>
-	 </select>
-	</div>
-  </div>
- </div>
- </fieldset>
- <fieldset class="step" id="ajax-step3">
-  <h6 class="form-wizard-title text-semibold">
-   <span class="form-wizard-count">3</span>
-	Contato e Redes Sociais
-  </h6>
-  <div class="row">
-   <div class="col-md-6">
-    <div class="form-group">
-	 <label>E-Mail do Clube</label>
-	  <input type="email" name="mail1" class="form-control" placeholder="your@email.com">
-	</div>
-   </div>
-  <div class="col-md-6">
-    <div class="form-group">
-	 <label>E-Mail para Projetos</label>
-	  <input type="email" name="mail2" class="form-control" placeholder="your@email.com">
-	</div>
-   </div>
-  <div class="col-md-6">
-   <div class="form-group">
-	<label>Telefone 1</label>
-	 <input type="text" name="tel1" class="form-control" placeholder="66-777-888-999" data-mask="99-999-999-999">
-	</div> 
-  </div>
-  <div class="col-md-6">
-   <div class="form-group">
-	<label>Telefone 2</label>
-	 <input type="text" name="tel2" class="form-control" placeholder="66-777-888-999" data-mask="99-999-999-999">
-	</div> 
-  </div>
- </div>
-</fieldset>
-<div class="form-wizard-actions">
- <button class="btn btn-default" id="ajax-back" type="reset">Voltar</button>
- <button class="btn btn-info" id="ajax-next" type="submit">Proximo</button>
-</div>
-</form>
- </div>
+   <div class="modal-footer"><br /><br /><br />
+    <button type="button" class="btn btn-link" data-dismiss="modal">Fechar	</button>
+    <input name="cadClub" type="submit" class="btn btn-primary" value="Cadastrar Clube">
+    </form>
+    <?php 
+    if(@$_POST["cadClub"])
+    {
+     $novoClubNome = $_POST['clube'];
+     $novoRCNome = $_POST['rc'];
+     $CadClube = $db->query("INSERT INTO ic_clube (clubeNome, rcPadrinho, clubeDistrito, status) VALUES ('$novoClubNome', '$novoRCNome', '$Distrito', 'A')");
+     if ($CadClube) {
+      $DataLog = date('Y-m-d H:i:s');
+      $Descricao = "Novo Club Cadastrado.<br />Clube: " . $novoClubNome . "<br />Rotary Club Patrocinador: " . $novoRCNome;
+      $InsereLog = $db->query("INSERT INTO logs (user, logCod, descreve, dtCadastro) VALUES ('$nickname', '100', '$Descricao', '$DataLog')");
+      if ($InsereLog) {
+       echo "<script>location.href='dashboard.php?sucesso=bg-success&evento=Cadastrar%20Clube&mensagem=Clube%20cadastrado%20com%20Sucesso!'</script>";  		
+      }
+      else
+      {
+        echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Cadastrar%20Clube&mensagem=Não%20foi%20possível%20cadastrar%20clube.%20Erro:%200x02'</script>"; 
+      }
+     }
+     else{
+        echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Cadastrar%20Clube&mensagem=Não%20foi%20possível%20reativar%20clube.%20Erro:%200x01'</script>"; 
+     	//ELSE CAD CLUB
+     }
+	}
+	?>
+
   </div>
  </div>
 </div>
 
-				<!-- /content area -->
+<!-- //MODAL DE CADASTRAR -->
 
-			</div>
-			<!-- /main content -->
-
-		</div>
-		<!-- /page content -->
-
+	
+	 </div>
 	</div>
-	<!-- /page container -->
+<?php include_once '../footer.php'; ?>	
+   </div><!-- /main content -->
+  </div><!-- /page content -->
+ </div><!-- /page container -->
+
+<!-- Core JS files -->
+ <script type="text/javascript" src="../assets/js/plugins/loaders/pace.min.js"></script>
+ <script type="text/javascript" src="../assets/js/core/libraries/jquery.min.js"></script>
+ <script type="text/javascript" src="../assets/js/core/libraries/bootstrap.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/loaders/blockui.min.js"></script>
+ <script type="text/javascript" src="../assets/js/core/libraries/jquery_ui/core.min.js"></script>	
+ <script type="text/javascript" src="../assets/js/core/libraries/jasny_bootstrap.min.js"></script>
+ <script type="text/javascript" src="../assets/js/core/app.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/ui/ripple.min.js"></script>
+ <!-- /core JS files -->
+ <!-- DATATABLES -->
+ <script type="text/javascript" src="../assets/js/plugins/tables/datatables/datatables.min.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/datatables_basic.js"></script>
+ <!-- //DATATABLES --> 
+ <!-- NOTIFICAÇÕES -->
+ <script type="text/javascript" src="../assets/js/plugins/notifications/pnotify.min.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/components_notifications_pnotify.js"></script>
+ <script type="text/javascript" src="../assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
+ <!-- //NOTIFICAÇÕES -->
+ <!-- FORMS -->
+ <script type="text/javascript" src="../assets/js/plugins/forms/selects/select2.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/styling/uniform.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/validation/validate.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/wizards/form_wizard/form.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/wizards/form_wizard/form_wizard.min.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/wizard_form.js"></script>
+ <!-- //FORMS -->		
+
+
 
 <script language="JavaScript">
 function abrir(URL) {
@@ -448,6 +453,29 @@ function formatar(mascara, documento){
   
 }
 </script>
-
+<script type="text/javascript">
+	$('#modalInativa').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var idvalor = button.data('idvalue') 
+  var recipient = button.data('whatever')
+  var nomeClubeInativar = button.data('whatever')
+  var modal = $(this)
+  modal.find('.modal-title').text('Desativar o Interact  Club de ' + nomeClubeInativar)
+  modal.find('.modal-body input').val(nomeClubeInativar)
+  modal.find('.modal-valor input').val(idvalor)
+})
+</script>
+<script type="text/javascript">
+	$('#modalAtiva').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var idvalor = button.data('idvalue') 
+  var recipient = button.data('whatever')
+  var nomeClubeInativar = button.data('whatever')
+  var modal = $(this)
+  modal.find('.modal-title').text('Desativar o Interact  Club de ' + nomeClubeInativar)
+  modal.find('.modal-body input').val(nomeClubeInativar)
+  modal.find('.modal-valor input').val(idvalor)
+})
+</script>
 </body>
 </html>

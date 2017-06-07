@@ -82,7 +82,8 @@ $QtSocios = $db->query("SELECT COUNT(*) FROM ic_socio WHERE codClub='$ClID' AND 
  <script type="text/javascript" src="../assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
  <script type="text/javascript" src="../assets/js/plugins/forms/selects/select2.min.js"></script>
  <script type="text/javascript" src="../assets/js/pages/form_select2.js"></script>
-	<!-- Fab -->
+
+<!-- Fab -->
  <script type="text/javascript" src="../assets/js/plugins/ui/fab.min.js"></script>
  <script type="text/javascript" src="../assets/js/pages/extra_fab.js"></script>
 	<!-- /Fab -->
