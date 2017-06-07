@@ -84,17 +84,15 @@ function myFunction() {
 
 
 <!-- FLOAT -->
-	<ul class="fab-menu fab-menu-fixed fab-menu-top-right" data-fab-toggle="click">
+
+	<ul class="fab-menu fab-menu-fixed fab-menu-top-left" data-fab-toggle="click">
 	 <li>
 	  <a class="fab-menu-btn btn bg-danger-400 btn-float btn-rounded btn-icon">
 	   <i class="fab-icon-open icon-cog52"></i><i class="fab-icon-close icon-cross2"></i>
 	  </a>
 	  <ul class="fab-menu-inner">
 	   <li>
-		<div data-fab-label="Compose email">
-		 <a href="#" class="btn btn-default btn-rounded btn-icon btn-float">
-		  <i class="icon-pencil"></i></a>
-		</div>
+		<button type="button" class="btn bg-orange-400 btn-rounded btn-labeled btn-xs" data-toggle="modal" data-target="#cadSocio"><b><i class="icon-user-plus"></i></b> Cadastrar Novo Associado</button>
 	   </li>
 	  </ul>
 	 </li>
@@ -245,7 +243,9 @@ function myFunction() {
 
 
 
-   	<?php } else { ?>
+   	<?php 
+   	include_once 'modals.php';
+   	} else { ?>
 	<div class="alert bg-pink alert-styled-left">
 	 <button type="button" class="close" data-dismiss="alert"><span>&times;</span>
 	 <span class="sr-only">Fechar</span></button>
