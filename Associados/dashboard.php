@@ -80,6 +80,139 @@ function myFunction() {
    </div>
    <div class="content">
     <?php if ($PriA =="1") { ?>
+<!-- MODAL DE INATIVAR CLUB -->	 
+<div class="modal fade" id="modalInativa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog" role="document">
+  <div class="modal-content">
+   <div class="modal-header bg-danger">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+   </div>
+   <div class="modal-body">
+	<h2 align="justify"><b>Aten&ccedil;&atilde;o!</b> Ao desativar associado, irá remover o cadastro dela como presidente, secretário e/ou tesoureiro do clube que ele pertence. tem certeza?</h2>
+    <form name="inativaCL" id="inativaCL" method="post" action="" enctype="multipart/form-data">
+     <div class="form-group">
+      <div class="col-md-8">Associado:
+        <input class="form-control" name="nomeClubeIn" id="modal-titulo">
+      </div>
+      <div class="col-md-4">ID:
+       <div class="modal-valor">
+        <input type="text" class="form-control" name="idClubeIn" id="modal-valor">
+       </div>
+      </div>
+     </div>
+   </div>
+   <div class="modal-footer"><br /><br /><br />
+    <input name="inativaCL" type="submit" class="btn bg-danger-400 btn-block btn-lg" value="Tenho certeza, desativar associado"  />
+    </form>
+    <?php 
+    if(@$_POST["inativaCL"])
+    {
+    $socioNome = $_POST['nomeClubeIn']; //ID DO PRODUTO
+    $idSocio = $_POST['idClubeIn']; //ID DO PRODUTO
+  	$Inativar = $db->query("UPDATE ic_socio SET aStatus='I' WHERE id='$idSocio'");
+    if ($Inativar) {
+     // Se associado foi desligado
+     $DesP = $db->query("UPDATE ic_clube SET pres='' WHERE pres='$idSocio'");
+      if ($DesP) {
+       //Se Remover Presidente deu certo
+       $DesS = $db->query("UPDATE ic_clube SET sec='' WHERE sec='$idSocio'");
+       if ($DesS) {
+       	//Se Remover Secretário deu Certo
+       	$DesT = $db->query("UPDATE ic_clube SET tes='' WHERE tes='$idSocio'");
+       	if ($DesT) {
+       	 //Se Remover Tesoureiro deu Certo
+    	$DataCad = date('Y-m-d H:i:s');
+    	$Descrito = "Associado desligado <br />" . $socioNome;
+     	$InLog = $db->query("INSERT INTO logs (user, logCod, descreve, dtCadastro) VALUES ('$nickname', '105', '$Descrito', '$DataCad')");
+     	 if ($InLog) {
+         echo "<script>location.href='dashboard.php?sucesso=bg-success&evento=Desativar%20Associado&mensagem=Associado%20Desativado%20com%20Sucesso!'</script>";
+     	 }	
+     	 else
+     	 {
+         echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Associado&mensagem=Não%20foi%20possível%20desativar%20associado.%20Erro:%200x16'</script>";  
+      	 //ELSE CADASTRAR LOG
+     	 }
+         echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Associado&mensagem=Não%20foi%20possível%20desativar%20associado.%20Erro:%200x17'</script>";         	
+       	}
+       	echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Associado&mensagem=Não%20foi%20possível%20desativar%20associado.%20Erro:%200x18'</script>";         	
+       }
+	   echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Desativar%20Associado&mensagem=Não%20foi%20possível%20desativar%20associado.%20Erro:%200x19'</script>";         	       
+      }
+  	 }
+    }
+    ?>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- //MODAL DE INATIVAR CLUB -->
+<!-- MODAL DE REATIVAR CLUB -->	 
+<div class="modal fade" id="modalReativa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog" role="document">
+  <div class="modal-content">
+   <div class="modal-header bg-success">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+   </div>
+   <div class="modal-body">
+	<h2 align="justify"><b>Aten&ccedil;&atilde;o!</b> Deseja realmente reativar associado?</h2>
+    <form name="ReativaClube" id="reaativaCL" method="post" action="" enctype="multipart/form-data">
+     <div class="form-group">
+      <div class="col-md-8">Associado:
+        <input class="form-control" name="nomeClubeIn" id="modal-titulo">
+      </div>
+      <div class="col-md-4">ID:
+       <div class="modal-valor">
+        <input type="text" class="form-control" name="idClubeIn" id="modal-idsocio">
+       </div>
+      </div>
+     </div>
+   </div>
+   <div class="modal-footer"><br /><br /><br />
+    <input name="ReativaClube" type="submit" class="btn bg-success-400 btn-block btn-lg" value="Tenho certeza, reativar associado"  />
+    </form>
+    <?php 
+    if(@$_POST["ReativaClube"])
+    {
+    $nomeSocio = $_POST['nomeClubeIn']; //ID DO PRODUTO
+    $idSocio = $_POST['idClubeIn']; //ID DO PRODUTO
+  	 $reativarCl = $db->query("UPDATE ic_socio SET aStatus='A' WHERE id='$idSocio'");
+  	 if ($reativarCl) {
+  	 $DataCad = date('Y-m-d H:i:s');
+     $Descrito = "Associado Reativado. <br />" . $nomeSocio;
+   	 $InLog = $db->query("INSERT INTO logs (user, logCod, descreve, dtCadastro) VALUES ('$nickname', '108', '$Descrito', '$DataCad')");
+      if ($InLog) 
+      {
+       echo "<script>location.href='dashboard.php?sucesso=bg-success&evento=Reativar%20Associado&mensagem=20Associado%20reativado%20com%20Sucesso!'</script>";
+      }
+      else
+      {
+        echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Reativar%20Associado&mensagem=Não%20foi%20possível%20reativar%20Associado.%20Erro:%200x11'</script>";      
+       //ELSE CADASTRAR LOG
+      }
+     }
+     else
+     {
+      echo "<script>location.href='vClube.php?sucesso=bg-danger&evento=Reativar%20Associado&mensagem=Não%20foi%20possível%20reativar%20Associado.%20Erro:%200x12'</script>"; 
+  	  //ELSE INATIVAR CLUB
+     }
+    }
+    ?>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- //MODAL DE REATIVAR CLUB -->
+
+
+
+
+
 
 
 
@@ -155,8 +288,7 @@ function myFunction() {
 			  }
 			  echo '</td>';
 			  echo '<td>
-			  
-	<button type="button" class="btn bg-danger-400 btn-labeled btn-rounded btn-xs" data-toggle="modal" data-target="#modalInativa" data-idvalue="' . $claNome . '"  data-whatever="' . $claNome . '"><b><i class="icon-x"></i></b>Inativar</button>
+	<button type="button" class="btn bg-danger-400 btn-labeled btn-rounded btn-xs" data-toggle="modal" data-target="#modalInativa" data-idvalue="' . $idCl . '"  data-whatever="' . $claNome . '"><b><i class="icon-x"></i></b>Inativar</button>
 			        </td>';
 			 echo '<td>';
              echo '<a class="btn bg-teal-400 btn-labeled btn-rounded btn-xs" href="javascript:abrir(';
@@ -212,7 +344,7 @@ function myFunction() {
 			  echo '</td>';
 			  echo '<td>
 			  
-	<button type="button" class="btn bg-green-400 btn-labeled btn-rounded btn-xs" data-toggle="modal" data-target="#modalReativa" data-idvalue="' . $claNomeci . '"  data-whatever="' . $claNomeci . '"><b><i class="icon-check"></i></b> Reativar</button>
+	<button type="button" class="btn bg-green-400 btn-labeled btn-rounded btn-xs" data-toggle="modal" data-target="#modalReativa" data-idvalue="' . $idClci . '"  data-whatever="' . $claNomeci . '"><b><i class="icon-check"></i></b>Inativar</button>
 			        </td>';
 			 echo '<td>';
              echo '<a class="btn bg-teal-400 btn-labeled btn-rounded btn-xs" href="javascript:abrir(';
@@ -289,5 +421,41 @@ function myFunction() {
  <script type="text/javascript" src="../assets/js/plugins/ui/fab.min.js"></script>
  <script type="text/javascript" src="../assets/js/pages/extra_fab.js"></script>
 <!-- /FAB -->
-
+<script type="text/javascript">
+	$('#modalInativa').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var idvalor = button.data('idvalue') 
+  var recipient = button.data('whatever')
+  var nomeClubeInativar = button.data('whatever')
+  var modal = $(this)
+  modal.find('.modal-title').text('Desligar associado: ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+  modal.find('.modal-valor input').val(idvalor)
+})
+</script>
+<script type="text/javascript">
+	$('#modalReativa').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var idvalor = button.data('idvalue') 
+  var recipient = button.data('whatever')
+  var nomeClubeInativar = button.data('whatever')
+  var modal = $(this)
+  modal.find('.modal-title').text('Reativar Associado: ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+  modal.find('.modal-valor input').val(idvalor)
+})
+</script>
+<script language="JavaScript">
+function abrir(URL) {
+ 
+  var width = 700;
+  var height = 650;
+ 
+  var left = 99;
+  var top = 99;
+ 
+  window.open(URL,'janela', 'width='+width+', height='+height+', top='+top+', left='+left+', scrollbars=yes, status=no, toolbar=no, location=no, directories=no, menubar=no, resizable=no, fullscreen=no');
+ 
+}
+</script>
 </html>
