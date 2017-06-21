@@ -42,6 +42,11 @@ $codAss = $user->codAss;
   $ChamaDistrito->execute();
    $Di = $ChamaDistrito->fetch();
     $dRDI = $Di['RDI'];
+    $dSDI = $Di['SDI'];
+    $dTDI = $Di['TDI'];
+    $dPDI = $Di['PDI'];
+    $ViceRDI = $Di['RDIVice'];
+    $RDIEleito = $Di['RDIEleito'];
 
 
 
@@ -80,5 +85,7 @@ function userFoto($a){
      $AFoto = $Nom['foto'];
      return $AFoto;
 }
+
+
 
 ?>

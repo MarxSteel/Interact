@@ -3,7 +3,7 @@
 	 <div class="sidebar-user-material">
 	  <div class="category-content">
 	   <div class="sidebar-user-material-content">
-		<a href="#"><img src="<?php echo $hosts; ?>assets/images/perfil/<?php echo $phoSocio; ?>" class="img-circle img-responsive" alt=""></a>
+		<a href="#"><img src="<?php echo $server; ?>assets/images/perfil/<?php echo $phoSocio; ?>" class="img-circle img-responsive" alt=""></a>
 		<h6><?php echo $nomSocio; ?></h6>
 		<span class="text-size-small"><?php echo $NomeClube; ?><br />Distrito <?php echo $Distrito; ?></span>
 	   </div>														
@@ -31,6 +31,8 @@
 		<li <?php echo $aDist; ?>>
 		 <a href="#"><i class="icon-cog"></i> <span>Distrito <?php echo $Distrito; ?></span></a>
 	      <ul>
+		   <li <?php echo $aDDistrito; ?>><a href="<?php echo $server; ?>Distrito/dashboard.php">
+		    <i class="icon-cog"></i>Distrito</a></li>	      
 		   <li <?php echo $aDClube; ?>><a href="<?php echo $server; ?>Clubes/dashboard.php">
 		    <i class="icon-flag3"></i>Clubes</a></li>
 		   <li <?php echo $aDSocio; ?>><a href="<?php echo $server; ?>Associados/dashboard.php">
@@ -41,7 +43,7 @@
 		</li>
 		<li <?php echo $aUser; ?>>
 		 <a href="<?php echo $server; ?>dashboard.php">
-		 <i class="icon-user"></i> <span>In&iacute;cio</span></a>
+		 <i class="icon-user"></i> <span>Usuários</span></a>
 		</li>		
 	   </ul>
 	  </div>

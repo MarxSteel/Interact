@@ -44,24 +44,18 @@ function myFunction() {
 <body onload="myFunction()">
 
 	<!-- Main navbar -->
-	<div class="navbar navbar-default header-dark">
- <div class="navbar-header">
-  <a class="navbar-brand">
-  <img src="<?php echo $server; ?>assets/images/logos/ICLogo_Azul_Graf.png" height="60%" alt=""></a>
-   <ul class="nav navbar-nav visible-xs-block">
-	<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
-	<li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
-   </ul>
- </div>
- <div class="navbar-collapse collapse" id="navbar-mobile">
-  <ul class="nav navbar-nav">
-   <li>
-	<a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>
-   </li>
-  </ul>
-  <div class="navbar-right">
-   <p class="navbar-text">Ol&aacute;, <?php echo $nomSocio; ?>!</p>				
-
+ <div class="navbar navbar-default " style="position: relative; z-index: 30">
+  <div class="navbar-header">
+   <a class="navbar-nav pull-right" >
+    <img src="<?php echo $server; ?>assets/images/logos/icbr_logo.png" width=200 alt=""></a>
+   <ul class="nav navbar-nav pull-left visible-xs-block">
+    <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+   </ul>  
+  </div>
+  <div class="navbar-collapse collapse" id="navbar-mobile">
+   <div class="navbar-right">
+    <p class="navbar-text">Ol&aacute;, <?php echo $nomSocio; ?>!</p>        
+    <?php include_once '../notifications.php' ?>
    </div>
   </div>
  </div>

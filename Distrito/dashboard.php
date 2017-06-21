@@ -10,6 +10,85 @@ $aUser = 'class="active"';
      $Nom = $ChamaNome->fetch();
      $ANome = $Nom['nomeCom'];
 
+
+
+function chamaAssociado($cd, $cargo){
+$db = DB();
+ $ChamaDiretor = $db->prepare("SELECT * FROM ic_socio where id='$cd'");
+  $ChamaDiretor->execute();
+   $Ch = $ChamaDiretor->fetch();
+   $Genero = $Ch['Gen'];
+   if ($cargo == 'pre') {
+   	$ccargo = 'Presidente';
+   }
+   elseif ($cargo == 'sec') {
+   	if ($Genero == 'M') {
+   		$ccargo = 'Secret&aacute;rio';
+   	}
+   	else{
+   		$ccargo = 'Secret&aacute;ria';
+   	}
+   }
+   elseif ($cargo == 'tes') {
+   	if ($Genero == 'M') {
+   		$ccargo = 'Tesoureiro';
+   	}
+   	else{
+   		$ccargo = 'Tesoureira';
+   	}
+   }
+   
+    echo '<div class="panel panel-body">';
+    echo '<div class="media no-margin">';
+    echo '<div class="media-body">';
+	echo '<h6 class="media-heading text-semibold">' . $Ch['nomeCom'] . '</h6>';
+	echo '<span class="text-muted"><b>' . $ccargo . '</b></span>';
+	echo '</div>';
+	echo '<div class="media media-left">';
+	echo '<a href="../assets/images/perfil/' . $Ch['foto'] . '" data-popup="lightbox">
+		  <img src="../assets/images/perfil/' . $Ch['foto'] . '" class="img-circle img-lg" alt="">
+	 </a>';
+	echo '</div></div></div>';
+
+}
+
+function diretor($diretor, $cargo){
+$db = DB();
+ $ChamaDiretor = $db->prepare("SELECT * FROM ic_socio where id='$diretor'");
+  $ChamaDiretor->execute();
+   $Ch = $ChamaDiretor->fetch();
+echo '
+		   <div class="col-md-4 col-xs-6">
+			<div class="thumbnail border-slate border-lg">
+		     <div class="thumb thumb-rounded">
+			   <img src="../assets/images/placeholder.jpg" alt="">
+			 </div>
+			 <div class="caption text-center">
+			  <h6 class="text-semibold no-margin">' . substr($Ch['nomeCom'], 0, 15) . ' 
+			  <small class="display-block">' . substr($cargo, 0, 17) . '</small></h6>
+			   <ul class="icons-list mt-15">
+				<li><a href="#" data-popup="tooltip" title="Atualizar" data-container="body" align="center"><i class="icon-google-drive"></i></a></li>
+			   </ul>
+			 </div>
+			</div>
+		   </div>	';
+
+		
+
+}
+
+ /*
+ ** CHAMANDO QUANTIDADES DE ASSOCIADOS, PROJETOS E CLUBES
+ */
+// QUANT CLUBES ATIVOS
+ $QuantClube = $db->query("SELECT COUNT(*) FROM ic_clube WHERE status='A' AND clubeDistrito='$Distrito'")->fetchColumn();
+
+// QUANT ASSOCIADOS ATIVOS
+ $QuantSocio = $db->query("SELECT COUNT(*) FROM ic_socio WHERE aStatus='A' AND aDist='$Distrito'")->fetchColumn();
+
+// QUANT PROJETOS
+ $QuantProjetos = $db->query("SELECT COUNT(*) FROM projetos WHERE dist='$Distrito'")->fetchColumn(); 
+
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -17,7 +96,7 @@ $aUser = 'class="active"';
  <meta charset="utf-8">
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="width=device-width, initial-scale=1">
- <title><?php echo $server; ?></title>
+ <title><?php echo $Titulo; ?></title>
  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
  <link href="../assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
  <link href="../assets/css/bootstrap.css" rel="stylesheet" type="text/css">
@@ -55,8 +134,25 @@ color:white;
 
 </style>
 </head>
+<?php
+if (isset($_GET["sucesso"])) {
 
-<body>
+$CodSucesso = $_GET["sucesso"];
+$CodEvento = $_GET["evento"];
+$CodMSG = $_GET["mensagem"];
+
+echo "<script>
+function myFunction() {
+ new PNotify({
+ title: '" . $CodEvento . "',
+ text: '" . $CodMSG . "',
+ addclass: '" . $CodSucesso . "'
+ });
+}
+</script>";
+
+} ?>
+<body onload="myFunction()">
 
 <!-- Main navbar -->
  <div class="navbar navbar-default " style="position: relative; z-index: 30">
@@ -78,194 +174,178 @@ color:white;
   <div class="page-content">
    <?php include_once '../sidebar.php'; ?>
    <div class="content-wrapper">
+    <div class="page-header">
+	 <div class="page-header-content">
+	  <div class="page-title">
+	   <h4><i class="icon-arrow-left52 position-left"></i> 
+	    <span class="text-semibold">Distrito <?php echo $Distrito; ?></span> - Informações do Distrito</h4>
+	  </div>
+	 </div>
+    </div>
     <div class="content">
      <div class="col-md-4 col-xs-12">
-	  <div class="sidebar-detached">
-	   <div class="sidebar sidebar-default sidebar-separate">
-		<div class="sidebar-content">
-		 <!-- User details -->
-		 <div class="content-group">
-		  <div class="panel-body bg-indigo-400 border-radius-top text-center" style="background-image: url(http://demo.interface.club/limitless/assets/images/bg.png); background-size: contain;">
-		   <div class="content-group-sm">
-			<h6 class="text-semibold no-margin-bottom"><?php echo userNome($dRDI); ?></h6>
-			<span class="display-block"><?php echo userMail($dRDI); ?></span>
-		   </div>
-		   <a href="#" class="display-inline-block content-group-sm">
-			<img src="../assets/images/perfil/<?php echo userFoto($dRDI); ?>" class="img-circle img-responsive" alt="" style="width: 110px; height: 110px;">
-		   </a>
-		  </div>
-		  <div class="panel no-border-top no-border-radius-top">
-		   <ul class="navigation">
-			<li>
-			 <a href="#profile" data-toggle="tab">Nascimento: 20/10/2010</a>
-			</li>
-			<li>
-			 <a href="#schedule" data-toggle="tab"><i class="icon-files-empty"></i> Schedule</a>
-			</li>
-			<li>
-			 <a href="#messages" data-toggle="tab"><i class="icon-files-empty"></i> Inbox <span class="badge bg-warning-400">23</span></a>
-			</li>
-			<li><a href="#orders" data-toggle="tab"><i class="icon-files-empty"></i> Orders</a></li>
-			<li class="navigation-divider"></li>
-			<li><a href="login_advanced.html"><i class="icon-switch2"></i> Log out</a></li>
-										</ul>
-									</div>
-								</div>
-								<!-- /user details -->
-
-
-								<!-- Online users -->
-								<div class="sidebar-category">
-									<div class="category-title">
-										<span>Online users</span>
-										<ul class="icons-list">
-											<li><a href="#" data-action="collapse"></a></li>
-										</ul>
-									</div>
-
-									<div class="category-content">
-										<ul class="media-list">
-											<li class="media">
-												<a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-sm img-circle" alt=""></a>
-												<div class="media-body">
-													<a href="#" class="media-heading text-semibold">James Alexander</a>
-													<span class="text-size-mini text-muted display-block">Santa Ana, CA.</span>
-												</div>
-												<div class="media-right media-middle">
-													<span class="status-mark border-success"></span>
-												</div>
-											</li>
-
-											<li class="media">
-												<a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-sm img-circle" alt=""></a>
-												<div class="media-body">
-													<a href="#" class="media-heading text-semibold">Jeremy Victorino</a>
-													<span class="text-size-mini text-muted display-block">Dowagiac, MI.</span>
-												</div>
-												<div class="media-right media-middle">
-													<span class="status-mark border-danger"></span>
-												</div>
-											</li>
-
-											<li class="media">
-												<a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-sm img-circle" alt=""></a>
-												<div class="media-body">
-													<a href="#" class="media-heading text-semibold">Margo Baker</a>
-													<span class="text-size-mini text-muted display-block">Kasaan, AK.</span>
-												</div>
-												<div class="media-right media-middle">
-													<span class="status-mark border-success"></span>
-												</div>
-											</li>
-
-											<li class="media">
-												<a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-sm img-circle" alt=""></a>
-												<div class="media-body">
-													<a href="#" class="media-heading text-semibold">Beatrix Diaz</a>
-													<span class="text-size-mini text-muted display-block">Neenah, WI.</span>
-												</div>
-												<div class="media-right media-middle">
-													<span class="status-mark border-warning"></span>
-												</div>
-											</li>
-
-											<li class="media">
-												<a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-sm img-circle" alt=""></a>
-												<div class="media-body">
-													<a href="#" class="media-heading text-semibold">Richard Vango</a>
-													<span class="text-size-mini text-muted display-block">Grapevine, TX.</span>
-												</div>
-												<div class="media-right media-middle">
-													<span class="status-mark border-grey-400"></span>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<!-- /online-users -->
-
-
-								<!-- Latest updates -->
-								<div class="sidebar-category">
-									<div class="category-title">
-										<span>Latest updates</span>
-										<ul class="icons-list">
-											<li><a href="#" data-action="collapse"></a></li>
-										</ul>
-									</div>
-
-									<div class="category-content">
-										<ul class="media-list">
-											<li class="media">
-												<div class="media-left">
-													<a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-pull-request"></i></a>
-												</div>
-
-												<div class="media-body">
-													Drop the IE <a href="#">specific hacks</a> for temporal inputs
-													<div class="media-annotation">4 minutes ago</div>
-												</div>
-											</li>
-
-											<li class="media">
-												<div class="media-left">
-													<a href="#" class="btn border-warning text-warning btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-commit"></i></a>
-												</div>
-												
-												<div class="media-body">
-													Add full font overrides for popovers and tooltips
-													<div class="media-annotation">36 minutes ago</div>
-												</div>
-											</li>
-
-											<li class="media">
-												<div class="media-left">
-													<a href="#" class="btn border-info text-info btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-branch"></i></a>
-												</div>
-												
-												<div class="media-body">
-													<a href="#">Chris Arney</a> created a new <span class="text-semibold">Design</span> branch
-													<div class="media-annotation">2 hours ago</div>
-												</div>
-											</li>
-
-											<li class="media">
-												<div class="media-left">
-													<a href="#" class="btn border-success text-success btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-merge"></i></a>
-												</div>
-												
-												<div class="media-body">
-													<a href="#">Eugene Kopyov</a> merged <span class="text-semibold">Master</span> and <span class="text-semibold">Dev</span> branches
-													<div class="media-annotation">Dec 18, 18:36</div>
-												</div>
-											</li>
-
-											<li class="media">
-												<div class="media-left">
-													<a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-pull-request"></i></a>
-												</div>
-												
-												<div class="media-body">
-													Have Carousel ignore keyboard events
-													<div class="media-annotation">Dec 12, 05:46</div>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<!-- /latest updates -->
-
-							</div>
-						</div>
-					</div>
-
-
-
-
-
-
-
+      <div class="panel panel-body">
+       <div class="row text-center">
+	    <div class="col-xs-4" align="center">
+		 <p><i class="icon-flag3 icon-2x display-inline-block text-primary"></i></p>
+		 <h5 class="text-semibold no-margin"><?php echo $QuantClube; ?></h5>
+		 <span class="text-muted text-size-small">Clubes</span>
+		</div>
+	    <div class="col-xs-4" align="center">
+		 <p><i class="icon-users2 icon-2x display-inline-block text-info"></i></p>
+		 <h5 class="text-semibold no-margin"><?php echo $QuantSocio; ?></h5>
+	     <span class="text-muted text-size-small">Associados</span>
+		</div>
+	    <div class="col-xs-4" align="center">
+		 <p><i class="icon-magazine icon-2x display-inline-block text-success"></i></p>
+		 <h5 class="text-semibold no-margin"><?php echo $QuantProjetos; ?></h5>
+		 <span class="text-muted text-size-small">Projetos</span>
+		</div>
+	   </div>
+	  </div>
+	  <div class="panel panel-body bg-indigo-400" style="background-image: url(../assets/images/backgrounds/bg.png);">
+	   <div class="media">
+	    <div class="media-left">
+		 <a href="assets/images/placeholder.jpg">
+		  <img src="../assets/images/perfil/<?php echo userFoto($dRDI); ?>" style="width: 70px; height: 70px;" class="img-circle" alt="">
+		 </a>
+		</div>
+		<div class="media-body">
+		 <h6 class="media-heading"><?php echo substr(userNome($dRDI), 0, 20); ?></h6>
+		 <span class="text-muted">Representante Distrital</span>
+		</div>
+	   </div>
+	  </div>
      </div>
+	 <div class="col-md-8 col-xs-12">
+	  <div class="panel panel-flat">
+	   <div class="panel-body">
+	    <div class="tabbable">
+		 <ul class="nav nav-pills">
+		  <li class="active"><a href="#ClAt" data-toggle="tab">Clubes Ativos</a></li>
+		  <li><a href="#eqp" data-toggle="tab">Equipe Distrital</a></li>
+		 </ul>
+		 <div class="tab-content">
+		  <div class="tab-pane fade in active" id="ClAt">
+ 		   <?php
+ 		   $LC = "SELECT * FROM ic_clube WHERE clubeDistrito='$Distrito' AND status='A' ORDER BY id DESC";
+ 		   $ClubesLista = $db->prepare($LC);
+ 		   $ClubesLista->execute();
+ 		    while ($Cl = $ClubesLista->fetch(PDO::FETCH_ASSOC)){ ?>
+		   <ul class="media-list media-list-linked">
+			<li class="media">
+			 <div class="media-link cursor-pointer" data-toggle="collapse" data-target="#<?php echo $Cl['id']; ?>">
+			  <div class="media-body">
+			   <div class="media-heading text-semibold">Interact Club de <?php echo $Cl['clubeNome']; ?></div>
+				<span class="text-muted">Data de Fundação: <?php echo dateConvert($Cl['dtFundacao']); ?></span>
+			  </div>
+			  <div class="media-right media-middle text-nowrap">
+			   <i class="icon-menu7 display-block"></i>
+			  </div>
+			 </div>
+			 <div class="collapse" id="<?php echo $Cl['id']; ?>">
+		      <div class="contact-details">
+			   <ul class="list-extended list-unstyled list-icons">
+				<li><i class="icon-pin position-left"></i> <?php echo $Cl['eRua'] . ', ' . $Cl['eNum'] . ' (' . $Cl['eCom'] . ') ' . $Cl['eBair'] . ' - ' . $Cl['eCid'] . ' - ' . $Cl['eUF'] . ' (' . $Cl['eCEP'] . ')'; ?></li>
+				<li><i class="icon-calendar2 position-left"></i><?php echo $Cl['rSem'] . ',' . $Cl['rHora'] . ' - ' . $Cl['Per']; ?></li>
+				<li><i class="icon-mail5 position-left"></i> 
+				 <a href="#"><?php echo $Cl['mailContato']; ?></a>
+				</li>
+				<li>
+				 <?php echo chamaAssociado($Cl['pres'], 'pre'); ?>
+				</li>
+				<li>
+				 <?php echo chamaAssociado($Cl['sec'], 'sec'); ?>
+				</li>
+				<li>
+				 <?php echo chamaAssociado($Cl['tes'], 'tes'); ?>
+				</li>
+			   </ul>
+			  </div>
+			 </div>
+			</li>
+		   </ul>
+		   <?php } ?>
+	      </div>
+		  <div class="tab-pane fade" id="eqp">
+		   <?php 
+		    echo diretor($dSDI, 'Secretario(a) Distrital'); 
+		    echo diretor($dTDI, 'Tesoureiro(a) Distrital'); 
+		    echo diretor($dPDI, 'Protocolo Distrital');
+		    $Diretores = "SELECT * FROM equipe_distrital WHERE distrito='$Distrito'";
+		     $ListaDiretor = $db->prepare($Diretores);
+		     $ListaDiretor->execute();
+		      while ($Dir = $ListaDiretor->fetch(PDO::FETCH_ASSOC)){
+		      $CDir = $Dir['cargo'];
+		      $CSocio = $Dir['socio'];
+		     echo diretor($CSocio, $CDir); 
+		      }
+ 		   ?>
+		   <div class="col-md-4 col-xs-6">
+			<div class="thumbnail border-slate border-lg">
+		     <div class="thumb thumb-rounded">
+			   <img src="../assets/images/placeholder.jpg" alt="">
+			 </div>
+			 <div class="caption text-center">
+			  <h6 class="text-semibold no-margin">FULANO DITAL 
+			  <small class="display-block">Diretor de Projetos</small></h6>
+			   <ul class="icons-list mt-15">
+				<li><a href="#" data-popup="tooltip" title="Atualizar" data-container="body" align="center"><i class="icon-google-drive"></i></a></li>
+			   </ul>
+			 </div>
+			</div>
+		   </div>			
+		   <div class="col-md-4 col-xs-6">
+			<div class="thumbnail border-slate border-lg">
+		     <div class="thumb thumb-rounded">
+			   <img src="../assets/images/placeholder.jpg" alt="">
+				<div class="caption-overflow">
+				 <span>
+				  <a href="../assets/images/placeholder.jpg" class="btn bg-success-400 btn-icon btn-xs" data-popup="lightbox"><i class="icon-plus2"></i></a>
+				 </span>
+				</div>
+			 </div>
+			 <div class="caption text-center">
+			  <h6 class="text-semibold no-margin">ABCDEFGHIJKLMNO 
+			  <small class="display-block">Diretor de Projetos</small></h6>
+			   <ul class="icons-list mt-15">
+				<li><a href="#" data-popup="tooltip" title="Atualizar" data-container="body" align="center"><i class="icon-google-drive"></i></a></li>
+			   </ul>
+			 </div>
+			</div>
+		   </div>	
+		   <div class="col-md-4 col-xs-6">
+			<div class="thumbnail border-slate border-lg">
+		     <div class="thumb thumb-rounded">
+			   <img src="../assets/images/placeholder.jpg" alt="">
+				<div class="caption-overflow">
+				 <span>
+				  <a href="../assets/images/placeholder.jpg" class="btn bg-success-400 btn-icon btn-xs" data-popup="lightbox"><i class="icon-plus2"></i></a>
+				 </span>
+				</div>
+			 </div>
+			 <div class="caption text-center">
+			  <h6 class="text-semibold no-margin">FULANO DITAL 
+			  <small class="display-block">Diretor de Projetos</small></h6>
+			   <ul class="icons-list mt-15">
+				<li><a href="#" data-popup="tooltip" title="Atualizar" data-container="body" align="center"><i class="icon-google-drive"></i></a></li>
+			   </ul>
+			 </div>
+			</div>
+		   </div>	
+
+
+
+
+
+
+
+		  </div>
+		 </div>
+		</div>
+	   </div>
+	  </div>
+	 </div>
 
 
 
@@ -299,5 +379,15 @@ color:white;
  <script type="text/javascript" src="../assets/js/pages/dashboard.js"></script>
 
  <script type="text/javascript" src="../assets/js/plugins/ui/ripple.min.js"></script>
+
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="../assets/js/plugins/media/fancybox.min.js"></script>
+
+	<script type="text/javascript" src="../assets/js/pages/user_pages_team.js"></script>
+
+
+	<script type="text/javascript" src="../assets/js/pages/colors_slate.js"></script>
 
 </html>
