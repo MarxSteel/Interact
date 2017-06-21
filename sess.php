@@ -27,7 +27,8 @@ $user = $app->UserDetails($_SESSION['user_id']); // get user details
 $loginUser = $user->username;
 $privs = $app->PrivilegioSocio($loginUser);
 
-$server = 'http://192.168.1.101:8888/interact/interact/';
+//$server = 'http://192.168.1.101:8888/interact/interact/';	//CASA WIFI
+$server = 'http://localhost:8888/interact/Interact';		//JUPTER
 $s = $server . '/assets/';
 $Titulo = "SIGED - Sistema de Gestão Distrital | MDIO Interact Brasil";
 $Distrito = "1234";

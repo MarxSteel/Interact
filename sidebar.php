@@ -3,7 +3,7 @@
 	 <div class="sidebar-user-material">
 	  <div class="category-content">
 	   <div class="sidebar-user-material-content">
-		<a href="#"><img src="<?php echo $server; ?>assets/images/perfil/<?php echo $phoSocio; ?>" class="img-circle img-responsive" alt=""></a>
+		<a href="#"><img src="<?php echo $hosts; ?>assets/images/perfil/<?php echo $phoSocio; ?>" class="img-circle img-responsive" alt=""></a>
 		<h6><?php echo $nomSocio; ?></h6>
 		<span class="text-size-small"><?php echo $NomeClube; ?><br />Distrito <?php echo $Distrito; ?></span>
 	   </div>														
@@ -24,7 +24,7 @@
 	 <div class="sidebar-category sidebar-category-visible">
 	  <div class="category-content no-padding">
 	   <ul class="navigation navigation-main navigation-accordion">
-		<li class="active">
+		<li <?php echo $aHome; ?>>
 		 <a href="<?php echo $server; ?>dashboard.php">
 		 <i class="icon-home4"></i> <span>In&iacute;cio</span></a>
 		</li>
@@ -39,6 +39,10 @@
 		    <i class="icon-users2"></i>Projetos</a></li>
 		  </ul>
 		</li>
+		<li <?php echo $aUser; ?>>
+		 <a href="<?php echo $server; ?>dashboard.php">
+		 <i class="icon-user"></i> <span>In&iacute;cio</span></a>
+		</li>		
 	   </ul>
 	  </div>
 	 </div>

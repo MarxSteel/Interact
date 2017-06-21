@@ -35,4 +35,50 @@ $codAss = $user->codAss;
   $Cl = $ChamaClube->fetch();
    $NomeClube = $Cl['clubeNome'];
 
+/*
+** CHAMANDO DADOS DO DISTRITO
+*/
+ $ChamaDistrito = $db->prepare("SELECT * FROM distrito WHERE id='$Distrito'");
+  $ChamaDistrito->execute();
+   $Di = $ChamaDistrito->fetch();
+    $dRDI = $Di['RDI'];
+
+
+
+/*
+** CHAMANDO NOME DO ASSOCIADO
+*/
+function userNome($a){
+  $db = DB();
+   $ChamaNome = $db->prepare("SELECT nomeCom FROM ic_socio WHERE id='$a'");
+    $ChamaNome->execute();
+     $Nom = $ChamaNome->fetch();
+     $ANome = $Nom['nomeCom'];
+     return $ANome;
+}
+
+/*
+** CHAMANDO EMAIL DO ASSOCIADO
+*/
+function userMail($a){
+  $db = DB();
+   $ChamaNome = $db->prepare("SELECT aMail FROM ic_socio WHERE id='$a'");
+    $ChamaNome->execute();
+     $Nom = $ChamaNome->fetch();
+     $AMail = $Nom['aMail'];
+     return $AMail;
+}
+
+/*
+** CHAMANDO FOTO DO ASSOCIADO
+*/
+function userFoto($a){
+  $db = DB();
+   $ChamaNome = $db->prepare("SELECT * FROM ic_socio WHERE id='$a'");
+    $ChamaNome->execute();
+     $Nom = $ChamaNome->fetch();
+     $AFoto = $Nom['foto'];
+     return $AFoto;
+}
+
 ?>
