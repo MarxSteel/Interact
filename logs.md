@@ -8,6 +8,7 @@
 105 - Clube e Associados Desativados
 106 - Reativar Clube
 107 - Cadastro de Associado
+108 - Reativar Associado
 205 - Atualizar Data de Fundação
 206 - Atualizar E-mail
 207 - Atualizar RC Padrinho

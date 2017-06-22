@@ -24,13 +24,15 @@
 	 <div class="sidebar-category sidebar-category-visible">
 	  <div class="category-content no-padding">
 	   <ul class="navigation navigation-main navigation-accordion">
-		<li class="active">
+		<li <?php echo $aHome; ?>>
 		 <a href="<?php echo $server; ?>dashboard.php">
 		 <i class="icon-home4"></i> <span>In&iacute;cio</span></a>
 		</li>
 		<li <?php echo $aDist; ?>>
 		 <a href="#"><i class="icon-cog"></i> <span>Distrito <?php echo $Distrito; ?></span></a>
 	      <ul>
+		   <li <?php echo $aDDistrito; ?>><a href="<?php echo $server; ?>Distrito/dashboard.php">
+		    <i class="icon-cog"></i>Distrito</a></li>	      
 		   <li <?php echo $aDClube; ?>><a href="<?php echo $server; ?>Clubes/dashboard.php">
 		    <i class="icon-flag3"></i>Clubes</a></li>
 		   <li <?php echo $aDSocio; ?>><a href="<?php echo $server; ?>Associados/dashboard.php">
@@ -39,6 +41,10 @@
 		    <i class="icon-users2"></i>Projetos</a></li>
 		  </ul>
 		</li>
+		<li <?php echo $aUser; ?>>
+		 <a href="<?php echo $server; ?>dashboard.php">
+		 <i class="icon-user"></i> <span>Usuários</span></a>
+		</li>		
 	   </ul>
 	  </div>
 	 </div>

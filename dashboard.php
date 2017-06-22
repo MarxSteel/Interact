@@ -75,47 +75,18 @@ color:white;
 <body>
 
 <!-- Main navbar -->
-	<div class="navbar navbar-default header-dark">
- <div class="navbar-header">
-  <a class="navbar-brand" href="index.html"><img src="assets/images/logos/ICLogo_Azul_Graf.png" height="60%" alt=""></a>
-   <ul class="nav navbar-nav visible-xs-block">
-	<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
-	<li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
-   </ul>
- </div>
- <div class="navbar-collapse collapse" id="navbar-mobile">
-  <ul class="nav navbar-nav">
-   <li>
-	<a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>
-   </li>
-  </ul>
-  <div class="navbar-right">
-   <p class="navbar-text">Ol&aacute;, <?php echo $nomSocio; ?>!</p>				
-	<ul class="nav navbar-nav">				
-	 <li class="dropdown">
-	  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-	   <i class="icon-bell2"></i>
-		<span class="visible-xs-inline-block position-right">Notifica&ccedil;&otilde;es</span>
-		<span class="status-mark border-pink-300"></span>
-	  </a>
-	  <div class="dropdown-menu dropdown-content">
-	   <div class="dropdown-content-heading">Atividade
-		<ul class="icons-list"><li><a href="#"><i class="icon-menu7"></i></a></li></ul>
-	   </div>
-		<ul class="media-list dropdown-content-body width-350">
-		 <li class="media">
-		  <div class="media-left">
-		   <a href="#" class="btn bg-success-400 btn-rounded btn-icon btn-xs"><i class="icon-mention"></i></a>
-		  </div>
-		  <div class="media-body">
-		   <a href="#">Marx Medeiros</a> Adicionou pendência a um projeto seu
-		   <div class="media-annotation">10/10/2010</div>
-		  </div>
-		 </li>
-		</ul>
-	   </div>
-	 </li>				
-	</ul>
+ <div class="navbar navbar-default " style="position: relative; z-index: 30">
+  <div class="navbar-header">
+   <a class="navbar-nav pull-right" >
+    <img src="<?php echo $server; ?>assets/images/logos/icbr_logo.png" width=200 alt=""></a>
+   <ul class="nav navbar-nav pull-left visible-xs-block">
+    <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+   </ul>	
+  </div>
+  <div class="navbar-collapse collapse" id="navbar-mobile">
+   <div class="navbar-right">
+    <p class="navbar-text">Ol&aacute;, <?php echo $nomSocio; ?>!</p>				
+    <?php include_once 'notifications.php' ?>
    </div>
   </div>
  </div>
@@ -151,7 +122,8 @@ color:white;
      <div class="col-md-4 col-xs-12">
       <div class="panel panel-body bg-orange-400" style="background-image: url(assets/images/backgrounds/bg.png);">
 	   <div class="media no-margin">
-	   <a href="" class="media-left media-middle" color="#ffffff"><i class="icon-cog icon-2x"></i></a>
+	   <a href="Distrito/dashboard.php" target="_blank" class="media-left media-middle" color="#ffffff">
+	   <i class="icon-cog icon-2x"></i></a>
 		
 		 <div class="media-body text-right">
 		  <h5 class="media-heading text-semibold">Distrito <?php echo $Distrito; ?></h5>
