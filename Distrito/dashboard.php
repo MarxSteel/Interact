@@ -57,15 +57,15 @@ $db = DB();
  $ChamaDiretor = $db->prepare("SELECT * FROM ic_socio where id='$diretor'");
   $ChamaDiretor->execute();
    $Ch = $ChamaDiretor->fetch();
-echo '
-		   <div class="col-md-4 col-xs-6">
-			<div class="thumbnail border-slate border-lg">
-		     <div class="thumb thumb-rounded">
-			   <img src="../assets/images/placeholder.jpg" alt="">
+	echo '
+	<div class="col-md-4 col-xs-12">
+	 <div class="thumbnail border-slate border-lg">
+	  <div class="thumb thumb-rounded border-slate">
+			   <img src="../assets/images/perfil/' . $Ch['foto'] . '" alt="">
 			 </div>
 			 <div class="caption text-center">
 			  <h6 class="text-semibold no-margin">' . substr($Ch['nomeCom'], 0, 15) . ' 
-			  <small class="display-block">' . substr($cargo, 0, 17) . '</small></h6>
+			  <small class="display-block">' . $cargo . '</small></h6>
 			   <ul class="icons-list mt-15">
 				<li><a href="#" data-popup="tooltip" title="Atualizar" data-container="body" align="center"><i class="icon-google-drive"></i></a></li>
 			   </ul>
@@ -103,12 +103,6 @@ echo '
  <link href="../assets/css/core.css" rel="stylesheet" type="text/css">
  <link href="../assets/css/components.css" rel="stylesheet" type="text/css">
  <link href="../assets/css/colors.css" rel="stylesheet" type="text/css">
-	<!-- /global stylesheets -->
-
-
-	<!-- /theme JS files -->
-
-
 <style type="text/css">
 
 
@@ -158,7 +152,7 @@ function myFunction() {
  <div class="navbar navbar-default " style="position: relative; z-index: 30">
   <div class="navbar-header">
    <a class="navbar-nav pull-right" >
-    <img src="<?php echo $hosts; ?>assets/images/logos/icbr_logo.png" width=200 alt=""></a>
+    <img src="<?php echo $server; ?>assets/images/logos/icbr_logo.png" width=200 alt=""></a>
    <ul class="nav navbar-nav pull-left visible-xs-block">
     <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
    </ul>	
@@ -183,6 +177,13 @@ function myFunction() {
 	 </div>
     </div>
     <div class="content">
+     <ul class="fab-menu fab-menu-fixed fab-menu-top-right" data-fab-toggle="click">
+      <li>
+       <button type="button" class="btn btn-default btn-labeled btn-rounded btn-block" data-toggle="modal" data-target="#AddDiretor"><b>
+        <i class="icon-plus-circle2"></i></b>Cadastrar novo membro da equipe
+        </button>
+      </li>
+     </ul><!-- FLOAT -->
      <div class="col-md-4 col-xs-12">
       <div class="panel panel-body">
        <div class="row text-center">
@@ -281,65 +282,6 @@ function myFunction() {
 		     echo diretor($CSocio, $CDir); 
 		      }
  		   ?>
-		   <div class="col-md-4 col-xs-6">
-			<div class="thumbnail border-slate border-lg">
-		     <div class="thumb thumb-rounded">
-			   <img src="../assets/images/placeholder.jpg" alt="">
-			 </div>
-			 <div class="caption text-center">
-			  <h6 class="text-semibold no-margin">FULANO DITAL 
-			  <small class="display-block">Diretor de Projetos</small></h6>
-			   <ul class="icons-list mt-15">
-				<li><a href="#" data-popup="tooltip" title="Atualizar" data-container="body" align="center"><i class="icon-google-drive"></i></a></li>
-			   </ul>
-			 </div>
-			</div>
-		   </div>			
-		   <div class="col-md-4 col-xs-6">
-			<div class="thumbnail border-slate border-lg">
-		     <div class="thumb thumb-rounded">
-			   <img src="../assets/images/placeholder.jpg" alt="">
-				<div class="caption-overflow">
-				 <span>
-				  <a href="../assets/images/placeholder.jpg" class="btn bg-success-400 btn-icon btn-xs" data-popup="lightbox"><i class="icon-plus2"></i></a>
-				 </span>
-				</div>
-			 </div>
-			 <div class="caption text-center">
-			  <h6 class="text-semibold no-margin">ABCDEFGHIJKLMNO 
-			  <small class="display-block">Diretor de Projetos</small></h6>
-			   <ul class="icons-list mt-15">
-				<li><a href="#" data-popup="tooltip" title="Atualizar" data-container="body" align="center"><i class="icon-google-drive"></i></a></li>
-			   </ul>
-			 </div>
-			</div>
-		   </div>	
-		   <div class="col-md-4 col-xs-6">
-			<div class="thumbnail border-slate border-lg">
-		     <div class="thumb thumb-rounded">
-			   <img src="../assets/images/placeholder.jpg" alt="">
-				<div class="caption-overflow">
-				 <span>
-				  <a href="../assets/images/placeholder.jpg" class="btn bg-success-400 btn-icon btn-xs" data-popup="lightbox"><i class="icon-plus2"></i></a>
-				 </span>
-				</div>
-			 </div>
-			 <div class="caption text-center">
-			  <h6 class="text-semibold no-margin">FULANO DITAL 
-			  <small class="display-block">Diretor de Projetos</small></h6>
-			   <ul class="icons-list mt-15">
-				<li><a href="#" data-popup="tooltip" title="Atualizar" data-container="body" align="center"><i class="icon-google-drive"></i></a></li>
-			   </ul>
-			 </div>
-			</div>
-		   </div>	
-
-
-
-
-
-
-
 		  </div>
 		 </div>
 		</div>
@@ -353,41 +295,47 @@ function myFunction() {
 
 
 
-	<?php include_once '../footer.php'; ?>
+	<?php 
+	include_once 'modals.php';
+	include_once '../footer.php'; 
+
+	?>
 	</div>
    </div>
   </div>
  </div>
 </body>
-	<!-- Core JS files -->
  <script type="text/javascript" src="../assets/js/plugins/loaders/pace.min.js"></script>
  <script type="text/javascript" src="../assets/js/core/libraries/jquery.min.js"></script>
  <script type="text/javascript" src="../assets/js/core/libraries/bootstrap.min.js"></script>
  <script type="text/javascript" src="../assets/js/plugins/loaders/blockui.min.js"></script>
-	<!-- /core JS files -->
-
-	<!-- Theme JS files -->
- <script type="text/javascript" src="../assets/js/plugins/visualization/d3/d3.min.js"></script>
- <script type="text/javascript" src="../assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
- <script type="text/javascript" src="../assets/js/plugins/forms/styling/switchery.min.js"></script>
- <script type="text/javascript" src="../assets/js/plugins/forms/styling/uniform.min.js"></script>
- <script type="text/javascript" src="../assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
- <script type="text/javascript" src="../assets/js/plugins/ui/moment/moment.min.js"></script>
- <script type="text/javascript" src="../assets/js/plugins/pickers/daterangepicker.js"></script>
-
+ <script type="text/javascript" src="../assets/js/core/libraries/jquery_ui/core.min.js"></script>	
+ <script type="text/javascript" src="../assets/js/core/libraries/jasny_bootstrap.min.js"></script>
  <script type="text/javascript" src="../assets/js/core/app.js"></script>
- <script type="text/javascript" src="../assets/js/pages/dashboard.js"></script>
-
  <script type="text/javascript" src="../assets/js/plugins/ui/ripple.min.js"></script>
+ <!-- /core JS files -->
+ <!-- DATATABLES -->
+ <script type="text/javascript" src="../assets/js/plugins/tables/datatables/datatables.min.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/datatables_basic.js"></script>
+ <!-- //DATATABLES --> 
+ <!-- NOTIFICAÇÕES -->
+ <script type="text/javascript" src="../assets/js/plugins/notifications/pnotify.min.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/components_notifications_pnotify.js"></script>
+ <script type="text/javascript" src="../assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
+ <!-- //NOTIFICAÇÕES -->
+ <!-- FORMS -->
+ <script type="text/javascript" src="../assets/js/plugins/forms/selects/select2.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/styling/uniform.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/validation/validate.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/wizards/form_wizard/form.min.js"></script>
+ <script type="text/javascript" src="../assets/js/plugins/forms/wizards/form_wizard/form_wizard.min.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/wizard_form.js"></script>
+ <!-- //FORMS -->		
 
-	<!-- /core JS files -->
-
-	<!-- Theme JS files -->
-	<script type="text/javascript" src="../assets/js/plugins/media/fancybox.min.js"></script>
-
-	<script type="text/javascript" src="../assets/js/pages/user_pages_team.js"></script>
-
-
-	<script type="text/javascript" src="../assets/js/pages/colors_slate.js"></script>
+<!-- FAB -->
+ <script type="text/javascript" src="../assets/js/plugins/ui/fab.min.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/extra_fab.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/user_pages_team.js"></script>
+ <script type="text/javascript" src="../assets/js/pages/colors_slate.js"></script>
 
 </html>
