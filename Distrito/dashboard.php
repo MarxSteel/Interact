@@ -3,7 +3,7 @@ include_once '../sess.php';
 include_once '../dados.php';
 $hosts = 'http://localhost:8888/interact/Interact/';
 include_once '../lib/qyuser.php';
-$aUser = 'class="active"';
+$aDist = 'class="active"';
   $db = DB();
    $ChamaNome = $db->prepare("SELECT nomeCom FROM ic_socio WHERE id='$a'");
     $ChamaNome->execute();
