@@ -13,7 +13,9 @@
 	  </div>
       <div class="navigation-wrapper collapse" id="user-nav">
 	   <ul class="navigation">
-	    <li><a href="#"><i class="icon-user-plus"></i> <span>Meu Perfil</span></a></li>
+	    <li><a href="Perfil/Perfil.php" target="_blank">
+	     <i class="icon-user-plus"></i> <span>Meu Perfil</span></a>
+	    </li>
 	    <li><a href="#"><i class="icon-coins"></i> <span>Relatório de Uso</span></a></li>
 	    <li class="divider"></li>
 	    <li><a href="#"><i class="icon-cog5"></i> <span>Configura&ccedil;&atilde;o de Perfil</span></a></li>

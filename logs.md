@@ -13,3 +13,8 @@
 206 - Atualizar E-mail
 207 - Atualizar RC Padrinho
 208 - Atualizado Diretorias
+
+
+
+
+500 - Cadastrado novo membro da equipe distrital
